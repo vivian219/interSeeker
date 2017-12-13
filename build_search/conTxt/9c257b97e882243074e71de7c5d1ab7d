@@ -1,0 +1,4154 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cisco's Talos Intelligence Group Blog: Attack on Critical Infrastructure Leverages Template Injection
+
+<!--
+.CSS_LIGHTBOX {
+z-index: 9999 !important;
+}
+html,body,div {
+margin:0;
+padding:0;
+border:0;
+}
+html,body {width:100%;height:100%;position:relative;}
+body {
+display: table;
+background-color: #26282A;
+overflow-x: hidden;
+color: #FFF;
+font-family: 'Roboto', sans-serif;
+font-weight: 300;
+font-size: 11.5pt;
+line-height: 1.5em !important;
+text-align:left;
+}
+#header {
+display: none;
+}
+a {
+text-decoration: none;
+}
+.widget {
+line-height: 1.5em;
+}
+/* Float Controls */
+.float-left  { float: left; }
+.float-right { float: right; }
+#page_wrapper {
+min-height: 100%;
+min-width:  100%;
+background-color: #26282A;
+position: relative;
+top:    0;
+bottom: 100%;
+left:   0;
+z-index: 300;
+/*display: table-row; This was needed for sticky footer, but interferes with new mobile nav*/
+}
+.col_single {
+max-width: 1200px;
+width: 100%;
+margin: 0 auto;
+height: 100%;
+float: none;
+padding: 80px 15px 150px 15px;
+}
+.col_single .col-xs-12 { padding: 0 35px; }
+.col-xs-12.wide { padding: 0 15px;}
+#main-wrapper {
+margin-left: 2%;
+width: 98%;
+display: inline;
+word-wrap: break-word;
+overflow: hidden;
+}
+@media (min-width: 950px) {
+#main-wrapper {
+width: 67%;
+float: left;
+}
+}
+label {
+font-weight: 300;
+text-align: left;
+font-size: 10pt;
+font-family: 'Roboto', sans-serif;
+text-transform: none;
+left: 0;
+line-height: 1em !important;
+display: block;
+color: #bdb5b5;
+padding-bottom: 4px;
+}
+/********* Navigation styles **********/
+/* full navigation wrapper(s) */
+#nav {
+/*height: 100%;*/
+margin: auto;
+text-align: center;
+font-family: 'Roboto', sans-serif;
+font-weight: 300;
+font-size: 11pt;
+background-color: #212224;
+}
+#navigation {
+width:  100%;
+height: 100%;
+position: fixed;
+top:    0;
+right:  0;
+bottom: 0;
+left:   0;
+z-index: 0;
+background-color: #005f8e;
+text-align: left;
+padding: 0;
+}
+/* Navigation needs to be behind page wrapper for mobile but in front of it for desktop */
+@media (min-width: 1000px) {
+#nav { height: 75px !important; max-height: 75px; font-size: 9pt;}
+#navigation { z-index: 500; background-color: transparent; text-align: center; position:relative;}
+}
+#nav ul {
+list-style: none;
+margin:  0;
+padding: 0;
+display: block;
+}
+#nav li { text-align: left; }
+.nav-item {
+width: 300px;
+border: 1px solid #005f8e;
+}
+#nav a {
+color: #fff;
+font-weight: 300;
+display: block;
+height: 100%;
+-webkit-transition: color 0.2s ease, background-color 0.5s ease;
+-moz-transition:    color 0.2s ease, background-color 0.5s ease;
+-o-transition:      color 0.2s ease, background-color 0.5s ease;
+transition:         color 0.2s ease, background-color 0.5s ease;
+line-height: 1.1em;
+}
+#nav a:hover { color: #fff; background-color: #393d43; }
+.nav-item a  { padding: 10px 15px; }
+.nav-item:hover { border: 1px solid #393d43; }
+@media (min-width: 1000px) {
+.nav-item, .nav-item:hover { border: none; }
+}
+/* Overrides natural list display styles for horizontal nav on desktop */
+/* Also splits navigation so there is a section on either side of logo */
+@media (min-width: 1000px) {
+#left-nav  { float: left; text-align: right; }
+#right-nav { float: right; text-align: left; }
+#left-nav, #right-nav { width: 50%; border-bottom: 1px solid #9ea0a6; }
+#left-nav ul.first  { margin-right: 140px; height: 74px; float: right; }
+#right-nav ul.first { margin-left: 140px; height: 74px; }
+#nav a { padding: 0; color: #9ea0a5; font-weight: 400;}
+#nav a:hover { background-color: transparent;}
+#nav li { display: inline-block; text-align: center; height: 100%;}
+#nav span { display: block; line-height: 1.15em; }
+#right-nav li, #left-nav li { float: left; position: relative; }
+.sub-nav li {float: right;}
+}
+.break { display: none;}
+/* Spacing between nav icons on large displays, also changes word breaks on longer link titles */
+@media (min-width: 1000px) { .break { display: inline !important; } #left-nav a, #right-nav a { padding: 10px 15px  0   15px; height: 64px; } }
+@media (min-width: 1170px) { .break { display: none !important; }   #left-nav a, #right-nav a { padding: 17px 15px 16px 15px; } }
+@media (min-width: 1300px) { #left-nav a, #right-nav a { padding:15px 20px 0 20px; } }
+/* end structural styles */
+/****** LOGOS ******/
+/* Main Talos logo that stays in center of page (top) */
+#nav-logo {
+position: absolute;
+z-index: 9000;
+left:  0;
+right: 0;
+margin: auto;
+width:  100%;
+height: 50px;
+text-align: center;
+}
+#nav-logo svg {
+width: 100%;
+height: auto;
+max-width: 155px;
+transition:         max-width 0.2s ease;
+-webkit-transition: max-width 0.2s ease;
+-moz-transition:    max-width 0.2s ease;
+-o-transition:      max-width 0.2s ease;
+}
+#nav-logo svg path {
+fill: #0077BE;
+transition:         fill 0.2s ease;
+-webkit-transition: fill 0.2s ease;
+-moz-transition:    fill 0.2s ease;
+-o-transition:      fill 0.2s ease;
+}
+@media (min-width: 1000px) {
+#nav-logo {
+background-color: transparent;
+max-height: 115px;
+width: 25%;
+min-width: 150px;
+max-width: 272px;
+top: 0;
+}
+#nav-logo svg {
+width:  100%;
+height: 106px; /* Width and height need to be specified for IE */
+max-width: 245px;
+}
+#nav-logo svg path {
+fill: #fff;
+}
+}
+#nav-logo svg polygon { fill: transparent; }
+@media (min-width: 1000px) {
+#nav-logo svg polygon {
+fill: #0077BE;
+}
+}
+/* end main logo styles */
+/* Mobile navigation has an additional icon for 'home' in the shelf menu since
+/* the main logo stays in the center of the page away from other menu items */
+#mobile-nav-topper {
+display: inline-block;
+width: 300px;
+padding: 9px 10px 4px 10px;
+background-color: #1278ba;
+border-bottom: 1px solid #fff;
+text-align: center;
+}
+#mobile-nav-topper a:hover {
+background: transparent !important;
+}
+@media (min-width: 1000px) {
+#mobile-nav-topper { display: none; }
+}
+/* end mobile logo styles */
+/****** NAVIGATION LINK ICONS *******/
+.nav-item svg {
+padding-top: 3px;
+margin-top: 7px;
+}
+@media (min-width: 1000px) {
+.nav-item svg { padding: 0; margin: 0; }
+}
+/* icon hover styles */
+#left-nav li:hover .nav-icon rect, #left-nav li:hover .nav-icon path, #right-nav li:hover .nav-icon rect, #right-nav li:hover .nav-icon path, #right-nav li:hover .nav-icon polygon {
+fill: #fff;
+}
+#left-nav li .nav-icon rect, #left-nav li .nav-icon path, #right-nav li .nav-icon rect, #right-nav li .nav-icon path, #right-nav li .nav-icon polygon {
+fill: #e5eff3;
+-webkit-transition: fill 0.5s ease;
+-moz-transition:    fill 0.5s ease;
+-o-transition:      fill 0.5s ease;
+transition:         fill 0.5s ease;
+}
+@media (min-width: 1000px) {
+#left-nav li .nav-icon rect, #left-nav li .nav-icon path, #right-nav li .nav-icon rect, #right-nav li .nav-icon path, #right-nav li .nav-icon polygon {
+fill: #9EA0A5;
+}
+}
+#link_blog { margin-top: -1px; } /* Adjusts for pencil that sticks slightly above icon box */
+/****** LINK TEXT ADJUSTMENTS ******/
+#left-nav li:hover .primary_nav_link, #right-nav li:hover .primary_nav_link { color: #fff !important;}
+#nav span {
+padding-left: 15px;
+vertical-align: 5px; /* offsets span sitting at bottom of <a> tag on mobile nav */
+}
+@media (min-width: 1000px){
+#nav span {
+padding-left: 0;
+padding-top: 4px;
+vertical-align: baseline;
+}
+}
+/* Mobile Shelf Styles */
+.nav-trigger + label, #page_wrapper, #nav-logo, #footer, .sub-nav-trigger, .sub-nav {
+transition:         left 0.2s;
+-webkit-transition: left 0.2s;
+-moz-transition:    left 0.2s;
+-o-transition:      left 0.2s;
+}
+.nav-trigger:checked + label, .nav-trigger:checked ~ #page_wrapper, .nav-trigger:checked ~ #nav-logo, .nav-trigger:checked ~ #footer {
+left: 300px;
+}
+.sub-nav-trigger:checked ~ .sub-nav {
+left: 50px;
+}
+.sub-nav-trigger:checked ~ .subnav-overlay {
+visibility: visible;
+opacity: 1;
+}
+/* If someone expands mobile nav menu and then changes browser window to desktop nav (over 1000px) */
+@media (min-width: 1000px) {
+.nav-trigger:checked + label, .nav-trigger:checked ~ #page_wrapper, .nav-trigger:checked ~ #nav-logo, .nav-trigger:checked ~ #footer {
+left: 0;
+}
+.sub-nav-trigger:checked ~ .sub-nav {
+left: 0;
+}
+.desktop-hide { display: none !important; }
+}
+/* Desktop & large display indicators (triangles on hover, etc) */
+@media (min-width: 1000px) {
+#left-nav li::after, #left-nav li::before, #right-nav li::after, #right-nav li::before {
+content: "";
+position: absolute;
+left: 50%;
+-webkit-transition: all 0.2s linear;
+-moz-transition:    all 0.2s linear;
+-o-transition:      all 0.2s linear;
+transition:         all 0.2s linear;
+backface-visibility: hidden; /* attempted hack to fix flickering on hover transition */
+}
+#left-nav li::after, #right-nav li::after {
+border-bottom: 1px solid #f19615;
+margin-left: 0;
+width: 0;
+height: 0;
+top: 74px;
+}
+#left-nav li::before, #right-nav li::before {
+border-style: solid;
+border-color: #9ea0a6;
+border-width: 1px 1px 0 0;
+height: 1px;
+transform: rotate(-45deg);
+width: 1px;
+margin-left: 0;
+top: 74px;
+}
+#left-nav li:hover::after, #right-nav li:hover::after, #left-nav li.active:hover::after, #right-nav li.active:hover::after {
+border-left:   7px solid transparent;
+border-right:  7px solid transparent;
+border-bottom: 7px solid #f19615;
+width:  0;
+height: 0;
+margin-left: -7px;
+top: 68px;
+}
+#left-nav li:hover::before, #right-nav li:hover::before {
+border-style: solid;
+border-color: #9ea0a6;
+border-width: 2px 2px 0 0;
+content: '';
+height: 12px;
+width:  12px;
+transform: rotate(-45deg);
+top: 67px;
+margin-left: -7px;
+}
+/* Current page/category indicators */
+#left-nav li.active::before, #right-nav li.active::before {
+content: '';
+position: absolute;
+border-style: solid;
+border-color: #9ea0a6;
+border-width: 2px 2px 0 0;
+height: 12px;
+width:  12px;
+transform: rotate(-45deg);
+top: 67px;
+margin-left: -7px;
+}
+#left-nav li.active::after, #right-nav li.active::after {
+content: '';
+position: absolute;
+border-bottom: 2px solid #26282A;
+margin-left: -7px;
+width: 14px;
+height: 0;
+top: 74px;
+}
+}
+/* Mobile sub navigation styles */
+.primary-link-wrapper {
+width: 243px;
+display: inline-block;
+}
+.subnav-overlay {
+width:  100%;
+height: 100%;
+position: fixed;
+top:    0;
+right:  0;
+bottom: 0;
+left:   0;
+background-color: #005f8e;
+visibility: hidden;
+opacity: 0;
+transition: visibility 0s, opacity 0.25s linear;
+}
+.subnav-overlay svg {
+opacity: 0.5;
+margin: 10px 0 0 10px;
+}
+.sub-nav {
+width:  100%;
+height: 100%;
+position: fixed;
+top:    0;
+right:  0;
+bottom: 0;
+left:   300px;
+z-index: 1;
+list-style: none;
+background: #393d43;
+}
+.sub-nav li {
+width: 100%;
+height: auto;
+}
+.sub-nav li a {
+display: block;
+padding: 12px 20px;
+color: white;
+text-decoration: none;
+}
+.sub-nav a:hover {
+background-color: #f19615 !important;
+}
+.sub-nav-trigger-label svg {
+margin-top: 3px;
+margin-bottom: 1px;
+padding: 0;
+}
+.subnav-back-button {
+cursor: pointer;
+width: 100%;
+padding: 20px;
+background-color: #2d3035;
+}
+/* css chevron */
+.subnav-back-button::before {
+border-style: solid;
+border-width: 3px 3px 0 0;
+content: '';
+display: inline-block;
+height: 12px;
+width:  12px;
+position: relative;
+vertical-align: top;
+transform: rotate(-135deg);
+margin-right: 30px;
+}
+.sub-nav h1 {
+font-family: "Roboto", Helvetica, Arial, sans-serif;
+text-transform: none;
+font-weight: 300;
+font-size: 16pt;
+padding-top: 10px;
+margin-top: 20px;
+margin-bottom: 10px;
+}
+.sub-nav-trigger-label:hover svg g circle {
+fill: #f19615;
+}
+.sub-nav-trigger-label:hover {
+background-color: #393d43;
+}
+.sub-nav-trigger-label {
+cursor: pointer;
+padding: 0;
+margin:  0;
+text-align: center;
+display: inline-block;
+float: right;
+width: 55px;
+-webkit-transition: color 0.2s ease, background-color 0.5s ease;
+-moz-transition:    color 0.2s ease, background-color 0.5s ease;
+-o-transition:      color 0.2s ease, background-color 0.5s ease;
+transition:         color 0.2s ease, background-color 0.5s ease;
+}
+@media (min-width: 1000px) {
+.sub-nav-trigger-label, .sub-nav-trigger {
+display: none;
+}
+.primary-link-wrapper {
+width: auto;
+display: block;
+height: 100%;
+}
+}
+/* Subnav (dropdown) styles for desktop and large mobile */
+@media (min-width: 1000px) {
+.sub-nav {
+display:block !important;
+position: absolute;
+left: -10%;
+height: 0;
+top: 75px;
+z-index: 5000;
+padding: 0;
+margin:  0;
+white-space: nowrap;
+text-align: left !important;
+}
+.sub-nav.left-shift {
+left: -75%; /* Moves subnavs that are being obstructed by center logo*/
+}
+#nav ul::before, #nav ul::after {
+content: "";
+display: table;
+}
+#nav ul::after {
+clear: both;
+}
+.sub-nav li {
+overflow: hidden;
+text-align: left !important;
+background-color: #393d43;
+height: 0;
+width: 200px;
+-webkit-transition: height 200ms ease-in, background-color 0.3s ease;
+-moz-transition:    height 200ms ease-in, background-color 0.3s ease;
+-o-transition:      height 200ms ease-in, background-color 0.3s ease;
+transition:         height 200ms ease-in, background-color 0.3s ease;
+}
+.sub-nav a {
+display: inline-block;
+margin-top: -4px;
+padding: 10px !important;
+}
+.sub-nav li:hover {
+background-color: #f19615;
+}
+.sub-nav li:hover a {
+color: #212224 !important;
+font-weight: 500 !important;
+}
+#nav ul > li:hover .sub-nav li {
+height: 36px !important;
+}
+}
+/* Mobile shelf trigger styles */
+/* hides the checkboxes */
+.nav-trigger, .sub-nav-trigger {
+position: absolute;
+clip: rect(0, 0, 0, 0);
+display: block;
+}
+label[for="nav-trigger"] {
+position: fixed;
+padding: 15px 0 0 15px;
+z-index: 9900;
+height: 50px;
+width:  100px;
+cursor: pointer;
+display: block;
+}
+@media (min-width: 1000px) {
+.nav-trigger, label[for="nav-trigger"] { display: none; }
+.nav-item { width: auto; border: none;}
+}
+/*********** Footer Styles *********/
+#footer {
+clear: both;
+min-height: 110px;
+text-align: center;
+color: #747678;
+font-size: 10.5pt;
+font-family: 'Exo 2', sans-serif;
+font-weight: 400;
+width: 100%;
+background-color: #212224;
+display: block;
+}
+#footer .footer_nav_wrapper {
+max-width: 1100px;
+margin: auto;
+}
+#footer ul {
+margin: auto;
+list-style: none;
+}
+ul.footer_nav {
+text-align: center;
+padding: 0 20px;
+}
+@media  screen and (min-width: 992px) {
+ul.footer_nav {
+text-align: left;
+}
+}
+.nopad {
+margin: 0;
+padding: 0;
+}
+ul.footer_nav li.list_col {
+text-align: center;
+}
+ul.footer_nav li ul li {
+padding: 1px 0;
+}
+/* styles for full width nav col with straight 1 col list of links - small mobile screens */
+ul.footer_nav li ul.pad.second.last {
+padding-bottom: 32px;
+}
+ul.footer_nav li ul.pad.first.top {
+padding-top: 32px;
+padding-left: 0;
+}
+ul.footer_nav ul {
+padding-left: 0;
+}
+@media screen and (min-width: 450px) {
+/* styles for full width nav col, 2 list cols */
+ul.footer_nav li ul.pad {
+padding: 32px 30px 32px 0;
+}
+ul.footer_nav li ul.pad.last {
+padding-right: 0;
+padding-left: 0;
+}
+ul.footer_nav li ul.pad.second {
+padding-top: 0;
+}
+ul.footer_nav li ul.pad.first {
+padding-bottom: 0;
+}
+ul.footer_nav li.list_col {
+display: inline-block;
+text-align: left;
+}
+}
+@media screen and (min-width: 800px) {
+/* styles for full width nav col, 4 list cols */
+ul.footer_nav li ul.pad.first, ul.footer_nav li ul.pad.second {
+padding: 32px 30px 32px 0;
+}
+li.nopad {
+display:inline-block;
+}
+}
+@media screen and (min-width: 1050px) {
+/* styles for full width nav col, expanded 4 list cols - large screens */
+ul.footer_nav li ul.pad {
+padding: 32px 40px 32px 0;
+}
+}
+#footer .footer_corporate img {
+max-width: 85px;
+margin-top: 20px;
+}
+.underline {
+text-decoration: underline;
+}
+.footer_corporate {
+padding-bottom: 15px;
+border-top: 2px solid #3f4143;
+line-height: 1.35em;
+}
+#footer h5 {
+font-weight: 400;
+font-size: 11pt;
+text-align: center;
+color: #747678;
+letter-spacing: .25pt;
+}
+.row {
+clear: both;
+}
+@media  screen and (min-width: 992px) {
+.connect_social ul {
+text-align: right;
+padding-right: 20px;
+padding-bottom: 0;
+}
+.connect_social {
+width: 25%;
+display:inline-block;
+}
+.col-md-9 {
+width:75%;
+float: left;
+}
+#footer h5 {
+padding-top: 35px;
+text-align: right;
+padding-right: 52px;
+}
+}
+.connect_social ul {
+text-align: center;
+padding-right: 0;
+padding-bottom: 15px;
+padding-left: 0;
+}
+.connect_social ul li {
+display: inline-block;
+}
+.connect_social ul li img {
+width: 33px;
+height: 33px;
+margin: 5px 3px;
+}
+#footer a {
+color: rgb(94, 95, 96);
+cursor: pointer;
+}
+#footer a:hover {color: #f19615;}
+.full-height {
+height: 100%
+}
+#content-wrapper {
+display: inline-block;
+}
+/*********** Sidebar Styles ************/
+#sidebar-wrapper {
+margin-right: 2%;
+display: inline;
+word-wrap: break-word;
+overflow: hidden;
+padding-top: 20px;
+border-left: 2px solid #26282A;
+}
+@media (min-width: 950px) {
+#sidebar-wrapper {
+width: 25%;
+float: right;
+}
+}
+.sidebar h2 {
+font-family: 'Exo 2', sans-serif;
+font-weight: 700;
+color: #3f7b9f;
+text-transform: uppercase;
+font-size: 11pt;
+letter-spacing: 1.5pt;
+}
+.sidebar ul li {
+font-size: 9pt;
+}
+.sidebar .widget {
+border-bottom: 2px solid #5c656d;
+margin: 0 0 1.5em;
+padding: 0 0 1.5em;
+}
+a.post-count-link {
+font-family: 'Exo 2', sans-serif;
+color: #9EA0A5;
+text-transform: uppercase;
+letter-spacing: 1.5pt;
+font-weight: 500;
+}
+a.post-count-link:hover {
+color: #f19615;
+}
+.posts a {
+color: #ffffff;
+}
+.posts a:hover {
+color: #f19615;
+}
+/** zippy is the triangle expanders **/
+.zippy {
+color: #9EA0A5;
+}
+.subscribe-wrapper {
+margin: 0.5em 0;
+}
+div.subscribe {
+background-color: #5c656d;
+font-size: 10pt;
+font-weight: 100 !important;
+color: #ffffff;
+border-radius: 2px;
+width: 100%;
+line-height: 2em;
+padding: 1px;
+margin: 8px 0;
+transition: background-color 0.5s ease;
+}
+div.subscribe:hover {
+background-color: #9EA0A5;
+}
+div.subscribe div.top, div.subscribe div.bottom {
+background-image: none !important;
+width: 100%;
+}
+.feed-icon {
+padding: 4px 10px 6px 5px;
+width: 15px;
+height: auto;
+vertical-align: middle;
+}
+.subscribe-dropdown-arrow {
+margin-top: 3px;
+margin-left: 10px;
+}
+a.feed-reader-link {
+color: #ffffff !important;;
+}
+.gsc-search-button {
+background-color: #5c656d;
+border-radius: 2px;
+border: none;
+color: #ffffff;
+}
+input.gsc-input {
+width: 95% !important;
+height: 20px;
+}
+form.gsc-search-box {
+margin-top: 7px !important;
+}
+#Gadget1 h2 {
+display: none;
+}
+#Gadget1 {
+text-align: left;
+}
+.blog-content, .blog-content a {
+color: #ffffff;
+text-decoration: none;
+}
+.blog-title, .blog-title a {
+font-family: 'Exo 2', sans-serif;
+color: #9EA0A5;
+text-transform: uppercase;
+letter-spacing: 1.5pt;
+font-weight: 500;
+text-decoration: none;
+padding-bottom: 4px;
+}
+.blog-title a:hover, .blog-content a:hover {
+color: #f19615;
+}
+.blog-list-container .blog-icon {
+display: none;
+}
+/*********** Blog Post Styles ***********/
+.post-outer {
+margin-bottom: 40px;
+}
+.date-header {
+font-family: 'Exo 2', sans-serif;
+font-weight: 700;
+color: #9EA0A5;
+text-transform: uppercase;
+font-size: 9pt;
+letter-spacing: 1.5pt;
+padding-bottom: 5px;
+}
+.date-outer {padding: 0;}
+.date-outer a {
+color: #ffffff;
+box-shadow: 0px 1px 0px 0px #F19615;
+text-decoration: none;
+}
+.post-title, .post-title a {
+font-family: 'Exo 2', sans-serif;
+font-size: 19pt;
+font-weight: 400;
+color: #3f7b9f;
+text-decoration: none;
+padding-bottom: 20px;
+box-shadow: none;
+}
+/* removing box shadows on links with images */
+a < img { box-shadow: none !important;}
+a[imageanchor] { box-shadow: none !important;}
+h3 {
+font-family: 'Exo 2', sans-serif;
+font-weight: 500;
+color: #3f7b9f;
+font-size: 14pt;
+padding-top: 20px;
+line-height: 1.25em;
+}
+h5 {
+font-family: 'Exo 2', sans-serif;
+font-weight: 700;
+color: #587282;
+font-size: 9pt;
+text-transform: uppercase;
+letter-spacing: 1.5pt;
+margin: 0;
+padding-top: 10px;
+}
+pre {
+font-family: 'Fira Mono', monospace;
+font-size: 10pt !important;
+line-height: 1.5em !important;
+color: #f19615;
+border: 2px solid #5c656d;
+padding: 20px;
+background-color: #26282a;
+margin: 30px 0;
+white-space: pre-wrap;       /* css-3 */
+white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+white-space: -pre-wrap;      /* Opera 4-6 */
+white-space: -o-pre-wrap;    /* Opera 7 */
+word-wrap: break-word;
+max-width: 700px;
+}
+.entry-content h2 {
+font-family: 'Exo 2', sans-serif;
+font-weight: 400;
+color: #3f7b9f;
+text-transform: uppercase;
+font-size: 14pt;
+letter-spacing: 1.5pt;
+}
+.entry-content, .post-body {
+color: #FFFFFF;
+font-family: 'Roboto', sans-serif;
+font-weight: 300;
+font-size: 11.5pt;
+line-height: 1.5em !important;
+}
+.entry-content img {
+max-width: 100%;
+height: auto;
+margin-top: 30px;
+margin-bottom: 10px;
+}
+figcaption {
+font-size: 10pt;
+color: #ec6e08;
+font-weight: 500;
+margin-bottom: 30px;
+text-align: left;
+}
+@media (min-width: 950px) {
+max-width: 700px;
+height: auto;
+}
+.post-body {
+margin-top: 10px;
+}
+.post-body table {
+}
+p {
+padding: .75em 0;
+margin: 0;
+}
+.post-footer {
+margin: 40px 0 15px 0;
+}
+.post-footer-line a, .comment-author a, .comment-timestamp a, .comment-footer a {
+text-decoration: none;
+box-shadow: none;
+color: #f19615;
+}
+.post-footer-line, .comment-author, .comment-timestamp, .comment-footer {
+color: #9EA0A5;
+font-size: 9pt;
+letter-spacing: 1.5pt;
+font-family: 'Exo 2', sans-serif;
+font-weight: 400;
+text-transform: uppercase;
+}
+.post {
+margin: .5em 0 1.5em;
+border-bottom: 1px solid #5c656d;
+padding-bottom: 1.5em;
+}
+#comments {
+border-bottom: 1px solid #5c656d;
+padding: 20px 0;
+margin-bottom: 40px;
+}
+.comment {
+border-bottom: 1px solid #5c656d;
+}
+#comments .blogger-comment-icon, .blogger-comment-icon {
+padding: 0;
+background: none;
+}
+.comment-author {
+border-top: 1px solid #5c656d;
+padding-top: 20px !important;
+}
+.comments .avatar-image-container {
+display:none;
+}
+.comment-header .user, .comment-header .user a {
+color: #f19615;
+font-family: 'Exo 2', sans-serif;
+font-weight: 500 !important;
+text-transform: uppercase;
+box-shadow: none;
+}
+.comment-header .datetime, .comment-header .datetime a {
+color: #9EA0A5;
+font-family: 'Exo 2', sans-serif;
+font-weight: 300;
+text-transform: uppercase;
+box-shadow: none;
+}
+.comments .comment-replybox-thread {
+margin-top: 40px;
+}
+h4 {
+font-family: 'Exo 2', sans-serif;
+font-weight: 500;
+text-transform: uppercase;
+color: #9EA0A5;
+}
+img.email {
+width: 25px;
+height: auto;
+}
+.blog-pager, .feed-links {
+color: #9EA0A5;
+font-size: 9pt;
+letter-spacing: 1.5pt;
+font-family: 'Exo 2', sans-serif;
+font-weight: 400;
+text-transform: uppercase;
+}
+.blog-pager a, .feed-links a {
+box-shadow: none;
+color: #f19615;
+}
+.social-media-share a {
+box-border: none !important;
+}
+.social-media-share {
+margin-top: 15px;
+}
+.social-media-share img {
+width: 25px;
+height: 25px;
+margin-right: 8px;
+}
+.social-media-share span {
+font-family: 'Exo 2', sans-serif;
+font-weight: 500;
+text-transform: uppercase;
+color: #9EA0A5;
+}
+.social-call {
+float: left;
+padding-top: 4px;
+margin-right: 15px;
+}
+iframe {
+margin: 20px 0;
+max-width: 100%;
+}
+/****** Search & Label Filter Results ****/
+.status-msg-wrap {
+width: 100%;
+border-bottom: 1px solid #5c656d;
+text-align: left;
+padding-bottom: 10px;
+margin-bottom: 20px;
+}
+.status-msg-body {
+text-align: left;
+font-family: 'Roboto', sans-serif;
+font-weight: 300;
+text-transform: none;
+}
+.status-msg-body a {
+text-decoration: none;
+color:  #3f7b9f;
+font-weight: 500;
+}
+.status-msg-body b {
+color:  #f19615;
+}
+.status-msg-bg {
+background-color: transparent;
+}
+.status-msg-border {
+border: none;
+}
+#uds-searchControl .gsc-results {
+background-color: transparent !important;
+border-bottom: 2px solid #5c656d !important;
+border-top: 0 !important;
+border-left: 0 !important;
+border-right: 0 !important;
+}
+.gsc-result {
+margin-bottom: 10px !important;
+padding-bottom: 10px !important;
+}
+.gs-relativePublishedDate {
+font-family: "Exo 2",sans-serif;
+font-weight: 500;
+font-size: 9pt;
+color: #9EA0A5 !important;
+text-transform: uppercase;
+letter-spacing: 1.5pt;
+}
+#uds-searchControl .gs-result .gs-title, #uds-searchControl .gs-result .gs-title *, #uds-searchControl .gsc-results .gsc-trailing-more-results, #uds-searchControl .gsc-results .gsc-trailing-more-results * {
+font-family: "Exo 2",sans-serif;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 1.5pt;
+color:  #6a8596 !important;
+text-decoration: none !important;
+}
+#uds-searchControl .gs-result .gs-title b {
+color: #F19615 !important;
+}
+.gs-visibleUrl a.gs-visibleUrl {
+color: #ffffff !important;
+text-decoration: none;
+box-shadow: 0px 1px 0px 0px #F19615;
+line-height: 2em !important;
+}
+.gsc-url-bottom .gs-visibleUrl {
+color: #F19615 !important;
+font-weight: 700;
+line-height: 2em !important;
+text-decoration: underline;
+}
+#uds-searchControl .gsc-cursor-current-page {
+color: #ffffff;
+}
+.gs-snippet {
+padding-top: 5px !important;
+}
+#uds-searchControl .gsc-tabHeader.gsc-tabhActive {
+background-color: #9EA0A5;
+text-transform: uppercase;
+font-family: "Exo 2",sans-serif;
+}
+#uds-searchControl .gsc-tabHeader.gsc-tabhInactive {
+background-color: #5c656d;
+text-transform: uppercase;
+font-family: "Exo 2",sans-serif;
+}
+#uds-searchControl .gsc-tabHeader.gsc-tabhActive, #uds-searchControl .gsc-tabHeader.gsc-tabhInactive {
+border: none !important;
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+font-weight: 600;
+color: #212224;
+padding: 3px 10px;
+margin: 0 2px 0 0;
+}
+.gsc-tabsArea {
+margin-bottom: 0 !important;
+}
+.gsc-above-wrapper-area {
+padding: 5px 0 1px 0 !important;
+border-bottom: 2px solid #9EA0A5 !important;
+}
+#uds-searchControl .gsc-cursor-current-page {
+color: #ffffff !important;
+}
+.gsc-results .gsc-cursor-box .gsc-cursor-page {
+text-decoration: none !important;
+color: #9EA0A5 !important;
+}
+#uds-searchClearResults {
+height: 15px !important;
+width: 15px !important;
+border-width: 2px !important;
+}
+.gsc-result-info {
+color: #ffffff !important;
+}
+.gsc-webResult .gsc-result {
+border-bottom: 1px solid #5c656d !important;
+}
+.gs-per-result-labels {
+text-transform: uppercase;
+font-family: "Exo 2",sans-serif;
+font-size: 9pt;
+color: #9EA0A5 !important;
+font-weight: 500;
+}
+.gs-webResult div.gs-per-result-labels a.gs-label {
+text-transform: uppercase;
+font-family: "Exo 2",sans-serif;
+font-size: 9pt;
+color: #3f7b9f !important;
+font-weight: 700;
+text-decoration: none !important;
+}
+#Navbar1 {display:none!important;}
+## Fix for lightbox preview
+.CSS_LIGHTBOX {
+z-index: 9999 !important;
+}
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Software
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Software
+
+
+BACK
+Snort
+ClamAV
+Razorback
+Daemonlogger
+Moflow
+PE-Sig
+Immunet
+Teslacrypt Decryption Tool
+MBR Filter
+FIRST
+LockyDump
+FreeSentry
+Flokibot Tools
+Synful Knock Scanner
+Cisco Smart Install Scanner
+ROPMEMU
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vulnerability Information
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vulnerability Information
+
+
+BACK
+Vulnerability Reports
+Microsoft Advisories
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reputation Center
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reputation Center
+
+
+BACK
+Email & Web Traffic Reputation
+AMP Threat Naming Conventions
+IP Blacklist Download
+AWBO Exercises
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Library
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Support Communities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Support Communities
+
+
+BACK
+
+Snort Community
+
+
+ClamAV Community
+
+
+Project Aspis
+
+
+SpamCop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+About
+
+
+
+
+
+
+
+
+
+Careers
+
+
+
+
+
+
+
+
+
+Blog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.st0{fill:#006DB6;}.st1{fill:#FFFFFF;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Friday, July 7, 2017
+
+
+
+
+
+
+
+
+Attack on Critical Infrastructure Leverages Template Injection
+
+
+
+
+
+
+Contributors:  Sean Baird, Earl Carter, Erick Galinkin, Christopher Marczewski & Joe Marshall 
+
+
+
+
+
+Executive Summary
+
+Attackers are continually trying to find new ways to target users with malware sent via email. Talos has identified an email-based attack targeting the energy sector, including nuclear power, that puts a new spin on the classic word document attachment phish. Typically, malicious Word documents that are sent as attachments to phishing emails will themselves contain a script or macro that executes malicious code.  In this case, there is no malicious code in the attachment itself. The attachment instead tries to download a template file over an SMB connection so that the user's credentials can be silently harvested. In addition, this template file could also potentially be used to download other malicious payloads to the victim's computer.
+
+
+
+
+
+
+Background
+
+Since at least May 2017, Talos has observed attackers targeting critical infrastructure and energy companies around the world, primarily in Europe and the United States.  These attacks target both the critical infrastructure providers, and the vendors those providers use to deliver critical services. Attacks on critical infrastructure are not a new concern for security researchers, as adversaries are keen to understand critical infrastructure ICS networks for reasons unknown, but surely nefarious.
+
+One objective of this most recent attack appears to be to harvest credentials of users who work within critical infrastructure and manufacturing industries. Using a new twist on an old attack method, a clever adversary stole credentials from their victims by sending malicious word documents via email. These documents when opened, attempt to retrieve a template file from an attacker controlled external SMB server.
+
+
+Technical Investigation
+
+In the midst of recent attack trends and global campaigns, it has become easier to pass over simple techniques that serve attackers' best interests for years. As Talos has recently observed, sometimes new takes on reliable techniques can make them even more effective.
+
+While investigating a recently reported attack and pivoting on the data provided, we landed on several interesting DOCX samples which were delivered as attachments in malicious spam emails.  As shown below, these documents often claimed to be environmental reports or resumés/CVs.
+
+
+
+Sample email containing a malicious document
+
+
+
+
+One DOCX sample used during this attack
+
+
+
+
+Another DOCX sample used during this attack
+
+Applying social engineering techniques to craft convincing documents to entice targets to open them is a technique frequently used by attackers. We have no evidence that these documents are anything other than malicious. Additionally, we have no information to suggest that any entity mentioned in any of these documents have themselves been subject to an attack as part of this campaign.
+
+Our first expectation was that we would find some malicious VBA macros or embedded scripting within the sample itself. Examination of the VBA code provided no such leads:
+
+
+
+Analysis of the document using oletools
+
+We confirmed this by running the sample against another similar tool:
+
+
+Further analysis of the DOCX
+
+Again, none of the usual indicators of an embedded binary that would contain such code appeared in our analysis. The sample had been acquired from our sandbox by researching an IP address related to the attack, but the server was no longer accepting such requests at the time of the sandbox run. While we investigated other leads, we set up an isolated environment with a server listening on TCP 80 to determine what the document was trying to obtain, if anything.
+
+At the loading screen for Word, we noticed something interesting:
+
+
+
+Word attempting to load a template
+
+The document was trying to pull down a template file from a particular IP, but no connection over TCP 80 had yet reached our decoy server. Sure enough, our live capture showed a failed handshake over TCP 445 instead. It was now time to manually parse the contents of the document for the IP address in question. Instead of code, we found an instance of template injection:
+
+
+
+Instance of template injection found in the document
+
+Our initial intelligence concerning the attack suggested that a malicious SMB server was being used to silently harvest user credentials. As conveyed in the sample, we can now see that an injected template was used to establish such a connection to an external server over SMB. Still, this did not explain why the same sample had attempted a session over TCP 80. After further research, we determined that the sandbox VM had an established preference over SMB when it came to this connection type. In short, due to the network preference of the host, a WebDAV connection was attempted over an SMB session when requesting the template. This was confirmed with another related sample when another external server was still listening on TCP 80 but no longer serving the template.
+
+
+
+Sandbox PCAP of the sample
+
+The only entity left to move on from the template settings was the specific Relationship ID that was present in word/_rels/settings.xml.rels within the sample: rId1337. Researching this Relationship ID led us to the GitHub page of a phishing tool named Phishery which happened to use the exact same ID in its template injection:
+
+
+
+GitHub page of the Phishery tool
+
+
+
+Suprisingly, the same ID is found at the bottom of the aforementioned Go source:
+
+
+
+"rId1337" found in the Phishery tool, line 105.
+
+Phishery, however, does NOT rely on a malicious SMB server. Rather, the connection is handled over HTTPS, and the user credentials are harvested via Basic Authentication with a prompt for the credentials. Such a prompt was not needed nor seen for samples requesting the template over SMB. The fact that both this tool and the reported attack rely on template injection with the exact same Relationship ID suggests one of the following:
+
+1. Mere coincidence (always a possibility);
+2. The attackers took notice of this tool and either modified it or developed their attack from scratch while sticking to the same concept used by the tool; or
+3. The attackers used the same Relationship ID to thwart analysis of the attack itself (remember: our first inclination was to follow-up on the failed connection attempts over TCP 80).
+
+At this time, there is no evidence to confirm any of the three possibilities. However, the attackers' reliance on a successful SMB session stemming from outbound traffic over TCP 445 further confirms that organizations are still failing to properly block such egress traffic to public hosts. With no credential prompt needed for the SMB variation, we can come to understand the simplicity and effectiveness of such a technique. If an attacker is able to compromise a host and run such a server internally, the situation becomes significantly more grave.
+
+Furthermore, since the attacker controlled SMB server was down when we analyzed these samples, it is not possible to determine the ultimate payloads (if any) that could have been dropped by the template being downloaded. As we have seen with recent attacks, the intent of an attack is not always obvious. Forcing SMB requests to an external server has been a known security vulnerability for many years. Without further information it is impossible to conclude what the true scope of this attack was or what malicious payloads could have been involved.
+
+
+Conclusion
+
+Talos responded to these attacks by reaching out to known affected customers and ensuring that they were aware of and capable of responding to the threat. It also illustrates the importance of controlling your network traffic and not allowing outbound protocols such as SMB except where specifically required for your environment. Additionally, a number of ClamAV signatures and email rules were written in order to ensure that threats leveraging this Office template injection technique are blocked in the future.
+
+
+Coverage
+
+ClamAV signatures created to identify this attack:
+
+Doc.Tool.Phishery-6331699-0
+Doc.Downloader.TemplateInjection-6332119-0
+Doc.Downloader.TemplateInjection-6332123-0
+
+Additional ways our customers can detect and block this threat are listed below.
+
+
+
+
+
+Advanced Malware Protection (AMP) blocks the malicious word documents used by these threat actors.
+
+CWS, WSA, and Umbrella can help identify outbound connections used by these threat actors.
+
+Email Security can block malicious emails sent by threat actors as part of their campaign. 
+
+AMP Threat Grid helps identify malicious binaries and builds protection into all Cisco Security products.
+
+
+
+
+
+
+IOCs
+
+Due to the nature in which we obtained intelligence related to these attacks, we are unable to share all of the IOCs related to this event; however, we wanted to share as much as possible in the spirit of transparency and collaboration.
+
+Malicious Documents
+Filename:        Report03-23-2017.docx
+SHA256:         93cd6696e150caf6106e6066b58107372dcf43377bf4420c848007c10ff80bc9
+
+Filename:        Controls Engineer.docx
+SHA256:         (1) b02508baf8567e62f3c0fd14833c82fb24e8ba4f0dc84aeb7690d9ea83385baa
+                (2) 3d6eadf0f0b3fb7f996e6eb3d540945c2d736822df1a37dcd0e25371fa2d75a0
+                (3) ac6c1df3895af63b864bb33bf30cb31059e247443ddb8f23517849362ec94f08
+
+Related IP Addresses
+184[.]154[.]150[.]66
+5[.]153[.]58[.]45
+62[.]8[.]193[.]206
+
+
+
+
+
+
+Posted by
+
+
+
+Earl Carter
+
+
+
+
+at
+
+4:34 PM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Labels:
+SMB Malware Energy
+
+
+
+
+
+Share This Post
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1 comment:
+
+
+
+                  (function() {
+                    var items = [{'id': '5329904124794143006', 'body': 'Hi, I\x26#39;ve been researching similar SMB exploits. The http traffic is likely due to the WEBDAV system attempting to fetch metadata. This occurs when UNC paths are loaded.', 'timestamp': '1499710457863', 'permalink': 'http://blog.talosintelligence.com/2017/07/template-injection.html?showComment\x3d1499710457863#c5329904124794143006', 'author': {'name': 'Dylan Katz', 'profileUrl': 'https://www.blogger.com/profile/17367340865851776326'}, 'displayTime': 'July 10, 2017 at 2:14 PM', 'deleteclass': 'item-control blog-admin pid-785460861'}];
+                    var msgs = {'loadMore': 'Load more...', 'loading': 'Loading...', 'loaded': 'No more!', 'addComment': 'Add comment', 'reply': 'Reply', 'delete': 'Delete'};
+                    var config = {'blogId': '1029833275466591797', 'postId': '2692794276796878969', 'feed': 'http://blog.talosintelligence.com/feeds/2692794276796878969/comments/default', 'authorName': 'Earl Carter', 'authorUrl': 'https://www.blogger.com/profile/07833323932899203321', 'baseUri': 'https://www.blogger.com', 'maxThreadDepth': 2};
+
+              // <![CDATA[
+                    var cursor = null;
+                    if (items && items.length > 0) {
+                      cursor = parseInt(items[items.length - 1].timestamp) + 1;
+                    }
+
+                    var bodyFromEntry = function(entry) {
+                      if (entry.gd$extendedProperty) {
+                        for (var k in entry.gd$extendedProperty) {
+                          if (entry.gd$extendedProperty[k].name == 'blogger.contentRemoved') {
+                            return '<span class="deleted-comment">' + entry.content.$t + '</span>';
+                          }
+                        }
+                      }
+                      return entry.content.$t;
+                    }
+
+                    var parse = function(data) {
+                      cursor = null;
+                      var comments = [];
+                      if (data && data.feed && data.feed.entry) {
+                        for (var i = 0, entry; entry = data.feed.entry[i]; i++) {
+                          var comment = {};
+                          // comment ID, parsed out of the original id format
+                          var id = /blog-(\d+).post-(\d+)/.exec(entry.id.$t);
+                          comment.id = id ? id[2] : null;
+                          comment.body = bodyFromEntry(entry);
+                          comment.timestamp = Date.parse(entry.published.$t) + '';
+                          if (entry.author && entry.author.constructor === Array) {
+                            var auth = entry.author[0];
+                            if (auth) {
+                              comment.author = {
+                                name: (auth.name ? auth.name.$t : undefined),
+                                profileUrl: (auth.uri ? auth.uri.$t : undefined),
+                                avatarUrl: (auth.gd$image ? auth.gd$image.src : undefined)
+                              };
+                            }
+                          }
+                          if (entry.link) {
+                            if (entry.link[2]) {
+                              comment.link = comment.permalink = entry.link[2].href;
+                            }
+                            if (entry.link[3]) {
+                              var pid = /.*comments\/default\/(\d+)\?.*/.exec(entry.link[3].href);
+                              if (pid && pid[1]) {
+                                comment.parentId = pid[1];
+                              }
+                            }
+                          }
+                          comment.deleteclass = 'item-control blog-admin';
+                          if (entry.gd$extendedProperty) {
+                            for (var k in entry.gd$extendedProperty) {
+                              if (entry.gd$extendedProperty[k].name == 'blogger.itemClass') {
+                                comment.deleteclass += ' ' + entry.gd$extendedProperty[k].value;
+                              } else if (entry.gd$extendedProperty[k].name == 'blogger.displayTime') {
+                                comment.displayTime = entry.gd$extendedProperty[k].value;
+                              }
+                            }
+                          }
+                          comments.push(comment);
+                        }
+                      }
+                      return comments;
+                    };
+
+                    var paginator = function(callback) {
+                      if (hasMore()) {
+                        var url = config.feed + '?alt=json&v=2&orderby=published&reverse=false&max-results=50';
+                        if (cursor) {
+                          url += '&published-min=' + new Date(cursor).toISOString();
+                        }
+                        window.bloggercomments = function(data) {
+                          var parsed = parse(data);
+                          cursor = parsed.length < 50 ? null
+                              : parseInt(parsed[parsed.length - 1].timestamp) + 1
+                          callback(parsed);
+                          window.bloggercomments = null;
+                        }
+                        url += '&callback=bloggercomments';
+                        var script = document.createElement('script');
+                        script.type = 'text/javascript';
+                        script.src = url;
+                        document.getElementsByTagName('head')[0].appendChild(script);
+                      }
+                    };
+                    var hasMore = function() {
+                      return !!cursor;
+                    };
+                    var getMeta = function(key, comment) {
+                      if ('iswriter' == key) {
+                        var matches = !!comment.author
+                            && comment.author.name == config.authorName
+                            && comment.author.profileUrl == config.authorUrl;
+                        return matches ? 'true' : '';
+                      } else if ('deletelink' == key) {
+                        return config.baseUri + '/delete-comment.g?blogID='
+                             + config.blogId + '&postID=' + comment.id;
+                      } else if ('deleteclass' == key) {
+                        return comment.deleteclass;
+                      }
+                      return '';
+                    };
+
+                    var replybox = null;
+                    var replyUrlParts = null;
+                    var replyParent = undefined;
+
+                    var onReply = function(commentId, domId) {
+                      if (replybox == null) {
+                        // lazily cache replybox, and adjust to suit this style:
+                        replybox = document.getElementById('comment-editor');
+                        if (replybox != null) {
+                          replybox.height = '250px';
+                          replybox.style.display = 'block';
+                          replyUrlParts = replybox.src.split('#');
+                        }
+                      }
+                      if (replybox && (commentId !== replyParent)) {
+                        replybox.src = '';
+                        document.getElementById(domId).insertBefore(replybox, null);
+                        replybox.src = replyUrlParts[0]
+                            + (commentId ? '&parentID=' + commentId : '')
+                            + '#' + replyUrlParts[1];
+                        replyParent = commentId;
+                      }
+                    };
+
+                    var hash = (window.location.hash || '#').substring(1);
+                    var startThread, targetComment;
+                    if (/^comment-form_/.test(hash)) {
+                      startThread = hash.substring('comment-form_'.length);
+                    } else if (/^c[0-9]+$/.test(hash)) {
+                      targetComment = hash.substring(1);
+                    }
+
+                    // Configure commenting API:
+                    var configJso = {
+                      'maxDepth': config.maxThreadDepth
+                    };
+                    var provider = {
+                      'id': config.postId,
+                      'data': items,
+                      'loadNext': paginator,
+                      'hasMore': hasMore,
+                      'getMeta': getMeta,
+                      'onReply': onReply,
+                      'rendered': true,
+                      'initComment': targetComment,
+                      'initReplyThread': startThread,
+                      'config': configJso,
+                      'messages': msgs
+                    };
+
+                    var render = function() {
+                      if (window.goog && window.goog.comments) {
+                        var holder = document.getElementById('comment-holder');
+                        window.goog.comments.render(holder, provider);
+                      }
+                    };
+
+                    // render now, or queue to render when library loads:
+                    if (window.goog && window.goog.comments) {
+                      render();
+                    } else {
+                      window.goog = window.goog || {};
+                      window.goog.comments = window.goog.comments || {};
+                      window.goog.comments.loadQueue = window.goog.comments.loadQueue || [];
+                      window.goog.comments.loadQueue.push(render);
+                    }
+                  })();
+              // ]]>
+                
+
+Dylan KatzJuly 10, 2017 at 2:14 PMHi, I've been researching similar SMB exploits. The http traffic is likely due to the WEBDAV system attempting to fetch metadata. This occurs when UNC paths are loaded.ReplyDeleteAdd commentLoad more...
+
+
+
+
+
+Post a Comment
+
+
+
+
+
+
+
+                    BLOG_CMT_createIframe('https://www.blogger.com/rpc_relay.html');
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+Newer Post
+
+
+Older Post
+
+Home
+
+
+
+
+Subscribe to:
+Post Comments (Atom)
+
+
+window.___gcfg = {'lang': 'en'};
+
+
+
+
+
+   
+   
+   #search {  
+   /* Old browsers */
+   background: #dedfe1;
+   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+   background: 
+     url('https://www.talosintelligence.com/assets/icon_search.svg') 96% 50% no-repeat,
+     linear-gradient(to right, #dedfe1 0%,#dedfe1 84%,#ef6f09 84%,#ef6f09 100%); 
+   /* FF3.6-15 */
+   background: 
+     url('https://www.talosintelligence.com/assets/icon_search.svg') 96% 50% no-repeat,
+     -moz-linear-gradient(left, #dedfe1 0%, #dedfe1 84%, #ef6f09 84%, #ef6f09 100%); 
+   /* Chrome10-25,Safari5.1-6 */
+   background: 
+     url(https://www.talosintelligence.com/assets/icon_search.svg) 96% 50% no-repeat,
+     -webkit-linear-gradient(left, #dedfe1 0%,#dedfe1 84%,#ef6f09 84%,#ef6f09 100%); 
+   
+   text-align: left;  
+   padding: 8px 24px 6px 6px;  
+   line-height: 1em;
+   border-radius: 2px;
+   height: 18px; 
+   cursor: pointer;
+   }  
+   #search:focus {
+    background-color: #fff;
+    box-shadow: inset 0 0 2px 1px #ED6F09;
+    outline: none;
+   }
+   #search #s {  
+   background: none;  
+   color: #303338; 
+   font-family: verdana; 
+
+   font-size: 11px;  
+   border: 0;  
+   width: 100%;  
+   padding: 0;  
+   margin: 0;  
+   outline: none;  
+   }  
+   
+   
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+Subscribe To Our Feed
+
+
+
+
+
+Posts
+
+
+
+
+
+
+
+Comments
+
+
+
+
+
+
+
+										Subscribe via Email
+                                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Blog Archive
+
+
+
+
+
+
+
+
+                          ▼ 
+                        
+
+
+
+2017
+
+(168)
+
+
+
+
+
+                          ► 
+                        
+
+
+
+December
+
+(5)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+November
+
+(11)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+October
+
+(15)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+September
+
+(17)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+August
+
+(16)
+
+
+
+
+
+
+
+                          ▼ 
+                        
+
+
+
+July
+
+(14)
+
+Vulnerability Spotlight: FreeRDP Multiple Vulnerab...
+Threat Round-up for July 14 - July 21
+Vulnerability Spotlight: Multiple Vulnerabilities ...
+Vulnerabilities in ProcessMaker, WebFOCUS, and Ope...
+Unravelling .NET with the Help of WinDBG
+PyREBox, a Python Scriptable Reverse Engineering S...
+Memcached - A Story of Failed Patching & Vulnerabl...
+Microsoft Patch Tuesday  - July 2017
+Vulnerability Spotlight: Iceni Infix PDF Editor Me...
+Attack on Critical Infrastructure Leverages Templa...
+Threat Round-up for June 30 - July 07
+Vulnerability Spotlight: TALOS-2017-0311,0319,0321...
+New KONNI Campaign References North Korean Missile...
+The MeDoc Connection
+
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+June
+
+(14)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+May
+
+(19)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+April
+
+(17)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+March
+
+(17)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+February
+
+(12)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+January
+
+(11)
+
+
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+2016
+
+(98)
+
+
+
+
+
+                          ► 
+                        
+
+
+
+December
+
+(9)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+November
+
+(8)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+October
+
+(11)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+September
+
+(8)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+August
+
+(8)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+July
+
+(9)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+June
+
+(10)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+May
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+April
+
+(12)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+March
+
+(7)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+February
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+January
+
+(4)
+
+
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+2015
+
+(62)
+
+
+
+
+
+                          ► 
+                        
+
+
+
+December
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+November
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+October
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+September
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+August
+
+(5)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+July
+
+(4)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+June
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+May
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+April
+
+(7)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+March
+
+(8)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+February
+
+(7)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+January
+
+(4)
+
+
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+2014
+
+(67)
+
+
+
+
+
+                          ► 
+                        
+
+
+
+December
+
+(4)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+November
+
+(5)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+October
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+September
+
+(10)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+August
+
+(4)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+July
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+June
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+May
+
+(4)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+April
+
+(10)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+March
+
+(4)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+February
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+January
+
+(8)
+
+
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+2013
+
+(30)
+
+
+
+
+
+                          ► 
+                        
+
+
+
+December
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+November
+
+(2)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+October
+
+(5)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+September
+
+(2)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+August
+
+(2)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+July
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+June
+
+(1)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+May
+
+(2)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+April
+
+(1)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+March
+
+(1)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+February
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+January
+
+(5)
+
+
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+2012
+
+(53)
+
+
+
+
+
+                          ► 
+                        
+
+
+
+December
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+November
+
+(1)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+October
+
+(2)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+September
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+August
+
+(7)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+July
+
+(7)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+June
+
+(4)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+May
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+April
+
+(5)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+March
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+February
+
+(7)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+January
+
+(2)
+
+
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+2011
+
+(23)
+
+
+
+
+
+                          ► 
+                        
+
+
+
+December
+
+(1)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+November
+
+(4)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+October
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+September
+
+(1)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+August
+
+(2)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+July
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+June
+
+(1)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+May
+
+(2)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+April
+
+(1)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+March
+
+(2)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+February
+
+(1)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+January
+
+(2)
+
+
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+2010
+
+(93)
+
+
+
+
+
+                          ► 
+                        
+
+
+
+December
+
+(4)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+November
+
+(2)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+October
+
+(4)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+September
+
+(7)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+August
+
+(9)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+July
+
+(11)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+June
+
+(12)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+May
+
+(5)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+April
+
+(12)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+March
+
+(10)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+February
+
+(7)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+January
+
+(10)
+
+
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+2009
+
+(146)
+
+
+
+
+
+                          ► 
+                        
+
+
+
+December
+
+(14)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+November
+
+(10)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+October
+
+(12)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+September
+
+(13)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+August
+
+(9)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+July
+
+(19)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+June
+
+(11)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+May
+
+(13)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+April
+
+(10)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+March
+
+(11)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+February
+
+(13)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+January
+
+(11)
+
+
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+2008
+
+(37)
+
+
+
+
+
+                          ► 
+                        
+
+
+
+December
+
+(12)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+November
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+October
+
+(7)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+September
+
+(6)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+August
+
+(3)
+
+
+
+
+
+
+
+                          ► 
+                        
+
+
+
+May
+
+(3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Recommended Blogs
+
+
+
+
+
+
+
+
+
+Cisco Blog
+
+
+
+
+Mohawk Creates New From Old with Cisco
+
+
+
+
+
+
+
+
+
+
+
+
+Snort Blog
+
+
+
+
+PulledPork 0.7.3 release!
+
+
+
+
+
+
+
+
+
+
+
+
+ClamAV® blog
+
+
+
+
+Mirror Sync Outage for ClamAV AV updates
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Software
+
+
+Reputation Center
+
+
+Vulnerability Information
+
+
+
+
+
+
+Library
+
+
+Support Communities
+
+
+Microsoft Advisory Snort Rules
+
+
+
+
+
+
+
+
+
+
+IP Blacklist Download
+
+
+AWBO Exercises
+
+
+About Talos
+
+
+
+
+
+
+Careers
+
+
+Blog
+
+
+
+
+
+
+
+
+Connect With Us
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+© 2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved. View our 
+			Privacy Policy here.
+		
+
+
+
+
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-30016562-3', 'auto');
+  ga('send', 'pageview');
+
+
+
+
+
+window['__wavt'] = 'AOuZoY47wlig7s8scDidiJF9gGJm6jQdhQ:1513162437916';_WidgetManager._Init('//www.blogger.com/rearrange?blogID\x3d1029833275466591797','//blog.talosintelligence.com/2017/07/template-injection.html','1029833275466591797');
+_WidgetManager._SetDataContext([{'name': 'blog', 'data': {'blogId': '1029833275466591797', 'title': 'Cisco\x27s Talos Intelligence Group Blog', 'url': 'http://blog.talosintelligence.com/2017/07/template-injection.html', 'canonicalUrl': 'http://blog.talosintelligence.com/2017/07/template-injection.html', 'homepageUrl': 'http://blog.talosintelligence.com/', 'searchUrl': 'http://blog.talosintelligence.com/search', 'canonicalHomepageUrl': 'http://blog.talosintelligence.com/', 'blogspotFaviconUrl': 'http://blog.talosintelligence.com/favicon.ico', 'bloggerUrl': 'https://www.blogger.com', 'hasCustomDomain': true, 'httpsEnabled': false, 'enabledCommentProfileImages': false, 'gPlusViewType': 'FILTERED_POSTMOD', 'adultContent': false, 'analyticsAccountNumber': 'UA-30016562-3', 'encoding': 'UTF-8', 'locale': 'en', 'localeUnderscoreDelimited': 'en', 'languageDirection': 'ltr', 'isPrivate': false, 'isMobile': false, 'isMobileRequest': false, 'mobileClass': '', 'isPrivateBlog': false, 'feedLinks': '\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Cisco\x26#39;s Talos Intelligence Group Blog - Atom\x22 href\x3d\x22http://blog.talosintelligence.com/feeds/posts/default\x22 /\x3e\n\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/rss+xml\x22 title\x3d\x22Cisco\x26#39;s Talos Intelligence Group Blog - RSS\x22 href\x3d\x22http://blog.talosintelligence.com/feeds/posts/default?alt\x3drss\x22 /\x3e\n\x3clink rel\x3d\x22service.post\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Cisco\x26#39;s Talos Intelligence Group Blog - Atom\x22 href\x3d\x22https://www.blogger.com/feeds/1029833275466591797/posts/default\x22 /\x3e\n\n\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Cisco\x26#39;s Talos Intelligence Group Blog - Atom\x22 href\x3d\x22http://blog.talosintelligence.com/feeds/2692794276796878969/comments/default\x22 /\x3e\n', 'meTag': '', 'openIdOpTag': '', 'adsenseHostId': 'ca-host-pub-1556223355139109', 'adsenseHasAds': false, 'ieCssRetrofitLinks': '\x3c!--[if IE]\x3e\x3cscript type\x3d\x22text/javascript\x22 src\x3d\x22https://www.blogger.com/static/v1/jsbin/771816573-ieretrofit.js\x22\x3e\x3c/script\x3e\n\x3c![endif]--\x3e', 'view': '', 'dynamicViewsCommentsSrc': '//www.blogblog.com/dynamicviews/4224c15c4e7c9321/js/comments.js', 'dynamicViewsScriptSrc': '//www.blogblog.com/dynamicviews/a5ac1a6a2bfacc9c', 'plusOneApiSrc': 'https://apis.google.com/js/plusone.js', 'sharing': {'platforms': [{'name': 'Get link', 'key': 'link', 'shareMessage': 'Get link', 'target': ''}, {'name': 'Facebook', 'key': 'facebook', 'shareMessage': 'Share to Facebook', 'target': 'facebook'}, {'name': 'BlogThis!', 'key': 'blogThis', 'shareMessage': 'BlogThis!', 'target': 'blog'}, {'name': 'Twitter', 'key': 'twitter', 'shareMessage': 'Share to Twitter', 'target': 'twitter'}, {'name': 'Pinterest', 'key': 'pinterest', 'shareMessage': 'Share to Pinterest', 'target': 'pinterest'}, {'name': 'Google+', 'key': 'googlePlus', 'shareMessage': 'Share to Google+', 'target': 'googleplus'}, {'name': 'Email', 'key': 'email', 'shareMessage': 'Email', 'target': 'email'}], 'googlePlusShareButtonWidth': 300, 'googlePlusBootstrap': '\x3cscript type\x3d\x22text/javascript\x22\x3ewindow.___gcfg \x3d {\x27lang\x27: \x27en\x27};\x3c/script\x3e'}, 'hasCustomJumpLinkMessage': false, 'jumpLinkMessage': 'Read more', 'pageType': 'item', 'postId': '2692794276796878969', 'postImageThumbnailUrl': 'https://3.bp.blogspot.com/-M7_TVig0AcU/WV_2Dubji2I/AAAAAAAAAOU/PjPQDCPcQ48pZhZcBc84OYwn02UQTEcNgCEwYBhgL/s72-c/talos-social.png', 'postImageUrl': 'https://3.bp.blogspot.com/-M7_TVig0AcU/WV_2Dubji2I/AAAAAAAAAOU/PjPQDCPcQ48pZhZcBc84OYwn02UQTEcNgCEwYBhgL/s400/talos-social.png', 'pageName': 'Attack on Critical Infrastructure Leverages Template Injection', 'pageTitle': 'Cisco\x27s Talos Intelligence Group Blog: Attack on Critical Infrastructure Leverages Template Injection', 'metaDescription': ''}}, {'name': 'features', 'data': {'lazy_images': 'false', 'unsupported_browser_message': 'false', 'sharing_get_link_dialog': 'false', 'sharing_native': 'false'}}, {'name': 'messages', 'data': {'edit': 'Edit', 'linkCopiedToClipboard': 'Link copied to clipboard!', 'ok': 'Ok', 'postLink': 'Post Link'}}, {'name': 'template', 'data': {'name': 'custom', 'localizedName': 'Custom', 'isResponsive': false, 'isAlternateRendering': false, 'isCustom': true}}, {'name': 'view', 'data': {'classic': {'name': 'classic', 'url': '?view\x3dclassic'}, 'flipcard': {'name': 'flipcard', 'url': '?view\x3dflipcard'}, 'magazine': {'name': 'magazine', 'url': '?view\x3dmagazine'}, 'mosaic': {'name': 'mosaic', 'url': '?view\x3dmosaic'}, 'sidebar': {'name': 'sidebar', 'url': '?view\x3dsidebar'}, 'snapshot': {'name': 'snapshot', 'url': '?view\x3dsnapshot'}, 'timeslide': {'name': 'timeslide', 'url': '?view\x3dtimeslide'}, 'isMobile': false, 'title': 'Attack on Critical Infrastructure Leverages Template Injection', 'description': 'A blog from the world class Intelligence Group, Talos, Cisco\x27s Intelligence Group', 'featuredImage': 'https://3.bp.blogspot.com/-M7_TVig0AcU/WV_2Dubji2I/AAAAAAAAAOU/PjPQDCPcQ48pZhZcBc84OYwn02UQTEcNgCEwYBhgL/s400/talos-social.png', 'url': 'http://blog.talosintelligence.com/2017/07/template-injection.html', 'type': 'item', 'isSingleItem': true, 'isMultipleItems': false, 'isError': false, 'isPage': false, 'isPost': true, 'isHomepage': false, 'isArchive': false, 'isLabelSearch': false, 'postId': 2692794276796878969}}]);
+_WidgetManager._RegisterWidget('_BlogView', new _WidgetInfo('Blog1', 'main', null, document.getElementById('Blog1'), {'cmtInteractionsEnabled': false, 'useNgc': false, 'lightboxEnabled': true, 'lightboxModuleUrl': 'https://www.blogger.com/static/v1/jsbin/415201697-lbx.js', 'lightboxCssUrl': 'https://www.blogger.com/static/v1/v-css/368954415-lightbox_bundle.css'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML1', 'sidebar', null, document.getElementById('HTML1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_SubscribeView', new _WidgetInfo('Subscribe1', 'sidebar', null, document.getElementById('Subscribe1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogArchiveView', new _WidgetInfo('BlogArchive1', 'sidebar', null, document.getElementById('BlogArchive1'), {'languageDirection': 'ltr', 'loadingMessage': 'Loading\x26hellip;'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogListView', new _WidgetInfo('BlogList1', 'sidebar', null, document.getElementById('BlogList1'), {'numItemsToShow': 0, 'totalItems': 3}, 'displayModeFull'));
+
+

@@ -7,7 +7,7 @@ Created on Mon Jul 17 20:25:56 2017
 import requests
 import json
 
-index_name = "maltest2"
+index_name = "malentend"
 #type_name = "fulltext"
 type_name = "exact_match"
 

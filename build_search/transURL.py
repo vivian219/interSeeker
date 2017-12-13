@@ -16,12 +16,13 @@ from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.pdfparser import PDFParser, PDFDocument
 
 import buildIndex
-import mongoengine_test
-
+import readTxt
+import redis_manager
+import hashlib
+import json
 class ExtractMode(Enum):
     PDFMode = 1
     HTMLMode = 2
-
 def getURLlist():
     f=open(r'F:\实验室\安管中心-暑期项目\urlfile.txt',"r",encoding='utf-8')
     urlList=[]
@@ -48,6 +49,7 @@ def filtURL(filename, urlList):
 """
 从url爬取内容并返回，当无法爬取或超时，返回为空
 """
+
 def spider(url):
     import requests
     headers = {
@@ -60,7 +62,7 @@ def spider(url):
         r=requests.get(url,headers=headers).content.decode('utf-8','ignore')
     except Exception:
         r=""
-    return r
+    return r.strip()
 
 
 """
@@ -142,10 +144,30 @@ def parse_pdf(url):
                     content += results
     content = " ".join(content.replace("\n", "").strip().split())
     return content
+class spider_data:
+    def __init__(self,_md5,_content,_report_md5):
+        self.report_md5=_report_md5
+        self.content=_content
+        self.md5=_md5
+def contxtToFile(conTxt,md5):
+    f=open("conTxt/"+str(md5),'w',encoding='utf-8')
+    f.write(conTxt)
+def spider_bot(txt,redis_obj,report_md5):
+    urlList=txt.urlList
+    for url in urlList:
+        m=re.match('.pdf$',url)
+        if m is None:
+            conTex=parse_html(url)
+        else:
+            conTex=parse_pdf(url)
+        if conTex=="":
+            continue
+        md5 = hashlib.md5(conTex.encode('utf-8')).hexdigest()
+        _spider_data=spider_data(md5,conTex,report_md5)
+        redis_obj.public(json.dumps({"md5":md5,"conTex":conTex,"report_md5":report_md5}))
+        contxtToFile(conTex,md5)
 
-
-
-def parser(urlList, mode):
+def parser(urlList):
     """
     爬取URL,使用域名后缀进行筛选,并提取其中的结构化信息
     :param urlList: 需要爬取的URL链接
@@ -163,13 +185,13 @@ def parser(urlList, mode):
     '.se','.tc','.tk','.tw','.com.tw','.idv.tw','.org.tw',
     '.hk','.co.uk','.me.uk','.org.uk','.vg', ".com.hk"]
     '''保存结果'''
-    res_file=open(r"F:\实验室\安管中心-暑期项目\res.csv","a",encoding='utf-8')
+    #res_file=open(r"F:\实验室\安管中心-暑期项目\res.csv","a",encoding='utf-8')
     res_list=[]
     whiteList=genWhiteList()
     for url in urlList:
         res=""
-        pat_pdf=re.compile('.pdf$')
-        m=re.match(url,'.pdf$')
+        #pat_pdf=re.compile('.pdf$')
+        m=re.match('.pdf$',url)
         if m is None:
             conTex=parse_html(url)
         else:
@@ -227,8 +249,6 @@ def parser(urlList, mode):
         res_list.append(res)
     return res_list
 
-
-
 def buildDoc(resList):
     """
     :param resList:以','分隔的结构化信息
@@ -243,19 +263,22 @@ def buildDoc(resList):
 
 
 """ HTML 爬取部分 """
-def addNewHTMLDoc(filename):
+def addNewHTMLDoc(filename,txt_pub,spider_pub):
     """
     从filename中读取 url,并进行爬取
     :param filename: url 存储文件
     """
-    # 获取URL
-    urlList = getURLlist()
-    # 从filename中获取新的URL，更新到 url list文件中，并整合成新的URL
-    newURL = filtURL(filename, urlList)
-    # 从URL中抽取结构化的信息
-    res_list = parser(newURL, ExtractMode.HTMLMode)
+
+    txtStruList =readTxt.getStructData(filename)
+
+    for item in txtStruList:
+        md5 = hashlib.md5(item.abstract.encode('utf-8')).hexdigest()
+        spider_bot(item,spider_pub,md5)
+
+        txt_pub.public(json.dumps({"md5":md5,"title":item.title,"tag":item.tag,"abstract":item.abstract,"time":item.time,"urlList":str(item.urlList)}))
+        #res_list = parser(newURL, ExtractMode.HTMLMode)
     # 为文档建立索引
-    buildDoc(res_list)
+    #[FIX]buildDoc(res_list)
 
 
 """ PDF 爬取部分 """
@@ -284,7 +307,10 @@ def get_pdf(url):
         f.write(r.content)
 
 if __name__ == "__main__":
-    addNewHTMLDoc(r"F:\实验室\安管中心-暑期项目\APT Feeds_v0.txt")
+    spider_pub=redis_manager.SpiderRedis()
+    txt_pub=redis_manager.TxtRedis()
+    #addNewHTMLDoc(r"F:\实验室\安管中心-暑期项目\APT Feeds_v0.txt",spider_pub)
+    addNewHTMLDoc("APT_test.txt", txt_pub,spider_pub)
     #addNewPDFDoc("pdflist.txt")
     # r=spider('https://www2.trustwave.com/rs/815-RFM-693/images/2017%20Trustwave%20Global%20Security%20Report-FINAL-6-20-2017.pdf')
     # print(r)
