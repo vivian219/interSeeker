@@ -37,6 +37,7 @@ class extract_data:
         self.hash_list=_hash_list
         self.report_md5=_report_md5
 while True:
+    print("extract bot get a data")
     spider_data=json.loads(redis_sub.parse_response()[2])
     conTex=spider_data["conTex"]
     md5=spider_data["md5"]
@@ -44,7 +45,8 @@ while True:
     print(spider_data["md5"])
     pat_ip = re.compile('\d{1,3}(\.\d{1,3}){3}')
     pat_dom = re.compile('([a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?)')
-    pat_hash = re.compile('[a-z|0-9|A-Z]{32,64}')
+    #pat_hash = re.compile('[a-z|0-9|A-Z]{32,64}')
+    pat_hash = re.compile('[a-f0-9]{32}|[A-F0-9]{32}')
 
     res_ip_list = list(pat_ip.finditer(conTex))
     res_dom_list = list(pat_dom.finditer(conTex))
@@ -72,4 +74,4 @@ while True:
     print(hash_set)
     _parser_res=extract_data(list(ip_set),list(dom_set),list(hash_set),md5,report_md5)
     parser_pub.public(json.dumps({"ip_list":str(_parser_res.ip_list),"dom_list":str(_parser_res.dom_list),"hash_list":str(_parser_res.hash_list),
-                                  "report_md5":_parser_res.report_md5,"md5":_parser_res.md5}))
+                                  "report_md5":_parser_res.report_md5,"md5":_parser_res.md5,"url":spider_data["url"]}))

@@ -144,11 +144,6 @@ def parse_pdf(url):
                     content += results
     content = " ".join(content.replace("\n", "").strip().split())
     return content
-class spider_data:
-    def __init__(self,_md5,_content,_report_md5):
-        self.report_md5=_report_md5
-        self.content=_content
-        self.md5=_md5
 def contxtToFile(conTxt,md5):
     f=open("conTxt/"+str(md5),'w',encoding='utf-8')
     f.write(conTxt)
@@ -163,92 +158,8 @@ def spider_bot(txt,redis_obj,report_md5):
         if conTex=="":
             continue
         md5 = hashlib.md5(conTex.encode('utf-8')).hexdigest()
-        _spider_data=spider_data(md5,conTex,report_md5)
-        redis_obj.public(json.dumps({"md5":md5,"conTex":conTex,"report_md5":report_md5}))
+        redis_obj.public(json.dumps({"md5":md5,"conTex":conTex,"report_md5":report_md5,"url":url}))
         contxtToFile(conTex,md5)
-
-def parser(urlList):
-    """
-    爬取URL,使用域名后缀进行筛选,并提取其中的结构化信息
-    :param urlList: 需要爬取的URL链接
-    :return: 根据URL页面内容得到的结构化信息
-    """
-    topHostPostfix = [    '.com','.la','.io','.co','.info','.net','.org','.me','.mobi',
-    '.us','.biz','.xxx','.ca','.co.jp','.com.cn','.net.cn',
-    '.org.cn','.mx','.tv','.ws','.ag','.com.ag','.net.ag',
-    '.org.ag','.am','.asia','.at','.be','.com.br','.net.br',
-    '.bz','.com.bz','.net.bz','.cc','.com.co','.net.co',
-    '.nom.co','.de','.es','.com.es','.nom.es','.org.es',
-    '.eu','.fm','.fr','.gs','.in','.co.in','.firm.in','.gen.in',
-    '.ind.in','.net.in','.org.in','.it','.jobs','.jp','.ms',
-    '.com.mx','.nl','.nu','.co.nz','.net.nz','.org.nz',
-    '.se','.tc','.tk','.tw','.com.tw','.idv.tw','.org.tw',
-    '.hk','.co.uk','.me.uk','.org.uk','.vg', ".com.hk"]
-    '''保存结果'''
-    #res_file=open(r"F:\实验室\安管中心-暑期项目\res.csv","a",encoding='utf-8')
-    res_list=[]
-    whiteList=genWhiteList()
-    for url in urlList:
-        res=""
-        #pat_pdf=re.compile('.pdf$')
-        m=re.match('.pdf$',url)
-        if m is None:
-            conTex=parse_html(url)
-        else:
-            conTex=parse_pdf(url)
-        # if mode == ExtractMode.HTMLMode:
-        #     conTex = parse_html(url)
-        # elif mode == ExtractMode.PDFMode:
-        #     conTex = parse_pdf(url)
-        # 如果为空, 则进入下一轮抽取
-        if conTex == "":
-            continue
-        mongoengine_test.contentToFile(url,conTex)
-        continue
-        pat_ip=re.compile('\d{1,3}(\.\d{1,3}){3}')
-        pat_dom=re.compile('([a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?)')
-        pat_hash=re.compile('[a-z|0-9|A-Z]{32,64}')
-        
-        res_ip_list = list(pat_ip.finditer(conTex))
-        res_dom_list = list(pat_dom.finditer(conTex))
-        res_hash_list=pat_hash.findall(conTex)
-        
-        res_file.write(str(url)+",")
-        res+=(str(url)+",")
-        for i in res_ip_list:
-            if len(i.group(0))<15:
-                res+=(i.group(0)+"|")
-                res_file.write(i.group(0)+"|")
-        if len(res_ip_list) <1:
-            res+=("none")
-            res_file.write("none")
-        res+=(",")
-        res_file.write(",")
-        empty=1
-        for i in res_dom_list:
-            wordlist=i.group(0).split('.')
-            l=len(wordlist)
-            if '.'+wordlist[l-1] in topHostPostfix:
-                judURL=whiteJudge(whiteList,str(i.group(0)))
-                res+=(judURL+"|")
-                res_file.write((i.group(0)+"|"))
-                empty=0
-        if empty==1:
-            res+=("none")
-            res_file.write("none")
-        res+=(",")
-        res_file.write(",")
-        for hash_value in res_hash_list:
-            if len(hash_value)==32 or len(hash_value)==40 or len(hash_value)==64:
-                res+=(hash_value+"|")
-                res_file.write(hash_value+"|")
-        if len(res_hash_list)<1:
-            res+=("none")
-            res_file.write("none")
-        res_file.write("\n")
-        res_list.append(res)
-    return res_list
-
 def buildDoc(resList):
     """
     :param resList:以','分隔的结构化信息
@@ -282,18 +193,18 @@ def addNewHTMLDoc(filename,txt_pub,spider_pub):
 
 
 """ PDF 爬取部分 """
-def addNewPDFDoc(filename):
-    """
-    从filename中读取 pdf文件的路径,并遍历进行爬取
-    :param filename: url 存储文件
-    """
-    # 获取PDF文件路径
-    with open(filename, 'r') as fp:
-        fileList = fp.readlines()
-    res_list = parser(fileList, ExtractMode.PDFMode)
-    print(res_list)
-    # 为文档建立索引
-    buildDoc(res_list)
+# def addNewPDFDoc(filename):
+#     """
+#     从filename中读取 pdf文件的路径,并遍历进行爬取
+#     :param filename: url 存储文件
+#     """
+#     # 获取PDF文件路径
+#     with open(filename, 'r') as fp:
+#         fileList = fp.readlines()
+#     res_list = parser(fileList, ExtractMode.PDFMode)
+#     print(res_list)
+#     # 为文档建立索引
+#     buildDoc(res_list)
 def get_pdf(url):
     # soup=BeautifulSoup(r)
     # print(soup.contents)

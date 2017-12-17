@@ -2,14 +2,37 @@
 from flask import Flask,render_template,request,jsonify
 import requests
 import json
+import mongo_manager
 
 app=Flask(__name__)
 index_name='maltest2'
 type_name='fulltext'
 
-@app.route('/')
+@app.route('/index.html')
 def index():
     return render_template("index.html")
+
+@app.route('/')
+def index__():
+    return render_template("index.html")
+@app.route('/api',methods=['POST'])
+def index___():
+    start = int(request.form['start'])
+    end=int(request.form['length'])+start
+    # start = 0
+    # end = 5
+    #return "zifuchuan"
+    return mongo_manager.getAllReportData(start, end)
+
+@app.route('/api/details',methods=['POST'])
+def index_details():
+    md5 = request.form['md5']
+
+    return mongo_manager.getMD5Data(md5)
+
+@app.route('/list.html')
+def index_():
+    return render_template("list.html")
 
 @app.route('/search',methods=['POST'])
 def search_text():

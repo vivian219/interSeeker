@@ -1,54 +1,7 @@
 from mongoengine import *
 import redis_manager
 import json
-class stixReport(Document):
-    ID=StringField(required=True,primary_key=True)
-    Title=StringField(required=True)
-    Abstract=StringField(required=True)
-    Tag=StringField(required=True)
-    URL=StringField(required=True)
-    vendors=StringField()
-    Status=StringField()
-    Date=StringField(required=True)
-    Description=StringField()
-    TLP=IntField()
-    Related=ListField(StringField())
-    Actors=StringField()
-    STIX2_Attack=StringField()
-    Pattern=StringField()
-    STIX2_Campaign=StringField()
-    STIX2_Course_of_Action=StringField()
-    STIX2_Identity=StringField()
-    STIX2_Intrusion_Set=StringField()
-    STIX2_Malware=StringField()
-    STIX2_Observed_Data=StringField()
-    STIX2_Tool=StringField()
-    STIX2_Vulnerability=StringField()
-
-
-class stixThreatActor(Document):
-    Name=StringField(required=True,primary_key=True)
-    First_Sighting=StringField()
-    Description=StringField()
-    Criticality=IntField()
-    Classification_Family=StringField()
-    Classification_ID=StringField()
-    TLP=StringField()
-    Actor_Types=StringField()
-    Motivations=StringField()
-    Aliases=StringField()
-    Communication_Addresses=StringField()
-    Financial_Accounts=StringField()
-    Country_Affiliations=StringField()
-    Known_Targets=StringField()
-    Actor_Suspected_Point_of_Origin=StringField()
-    Infrastructure_IPv4s=StringField()
-    Infrastructure_FQDNs=StringField()
-    Infrastructure_Action=StringField()
-    Infrastructure_Ownership=StringField()
-    Infrastructure_Status=StringField()
-    Infrastructure_Types=StringField()
-    Detection_Rules=StringField()
+import mongo_manager
 
 connect('monoengine_test',host='localhost',port=27017)
 
@@ -68,14 +21,15 @@ def listen():
     while True:
         msg=json.loads(redis_sub.parse_response()[2])
         print(msg)
-        post=stixReport(ID=msg["md5"],Title=msg["title"],Abstract=msg["abstract"],Tag=msg["tag"],URL=msg["urlList"],Date=msg["time"])
+        post=mongo_manager.stixReport(ID=msg["md5"],Title=msg["title"],Abstract=msg["abstract"],Tag=msg["tag"],URL=msg["urlList"],Date=msg["time"])
         post.save()
         print('save')
 #listen()
 def getAllData():
-    alldata=stixReport.objects.all()
+    alldata=mongo_manager.stixReport.objects.all()
     for data in alldata:
-        print("title",data.Title,"abstract",data.Abstract)
+        print(data.to_mongo())
+        #print("title",data.ID,"abstract",data.Abstract)
 getAllData()
 # class Post(Document):
 #     title=StringField(required=True,max_length=200)
