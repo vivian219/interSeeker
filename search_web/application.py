@@ -3,9 +3,10 @@ from flask import Flask,render_template,request,jsonify
 import requests
 import json
 import mongo_manager
+import buildIndex
 
 app=Flask(__name__)
-index_name='maltest2'
+index_name='malextend'
 type_name='fulltext'
 
 @app.route('/index.html')
@@ -17,17 +18,17 @@ def index__():
     return render_template("index.html")
 @app.route('/api',methods=['POST'])
 def index___():
-    start = int(request.form['start'])
-    end=int(request.form['length'])+start
-    # start = 0
-    # end = 5
-    #return "zifuchuan"
-    return mongo_manager.getAllReportData(start, end)
+    print(request.form['search[value]'])
+    if request.form['search[value]']=='':
+        start = int(request.form['start'])
+        end=int(request.form['length'])+start
+        return mongo_manager.getAllReportData(start, end)
+    else:
+        return buildIndex.prep_sea_res(request.form['search[value]'])
 
 @app.route('/api/details',methods=['POST'])
 def index_details():
     md5 = request.form['md5']
-
     return mongo_manager.getMD5Data(md5)
 
 @app.route('/list.html')
@@ -51,10 +52,7 @@ def search(field,query,index_str,type_str):
             new_list.append(item["_source"])
     print(new_list)
     return new_list
-'''
-def hello_world():
-    return 'Hello World!'
-'''
+
 if __name__=='__main__':
     app.debug=True
     app.run(host='127.0.0.1',port=8989)
