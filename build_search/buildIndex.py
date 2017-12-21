@@ -7,29 +7,35 @@ Created on Mon Jul 17 20:25:56 2017
 import requests
 from elasticsearch import Elasticsearch
 import json
-#index_name = "actor"
-#index_name="indicator"
-index_name="report"
-#type_name = "fulltext"
-type_name = "exact_match"
+
+type_name = "fulltext"
+
 es=Elasticsearch()
 def buildIndex():
     # 使用PUT请求创建一个索引
-    #print("build index")
-    es.indices.create(index="actor", ignore=400)
-    # res = requests.put("http://localhost:9200/{0}".format(index_name))
-    # print(res.content.decode('utf8'))
+    print("build index")
+    #es.indices.create(index="report")
+    index_name="indicator"
+    res = requests.put("http://localhost:9200/{0}".format(index_name))
+    print(res.content.decode('utf8'))
     # 设置分词
     data = {
         type_name: {
-                 "_all": {
+            "_all": {
                 "analyzer": "ik_max_word",
                 "search_analyzer": "ik_max_word",
                 "term_vector": "no",
                 "store": "false"
             },
             "properties": {
-                "Content": {
+                "Abstract": {
+                    "type": "text",
+                    "analyzer": "ik_max_word",
+                    "search_analyzer": "ik_max_word",
+                    "include_in_all": "true",
+                    "boost": 8
+                },
+                "Title": {
                     "type": "text",
                     "analyzer": "ik_max_word",
                     "search_analyzer": "ik_max_word",
@@ -39,10 +45,11 @@ def buildIndex():
             }
         }
     }
-    # res = requests.post("http://localhost:9200/{0}/{1}/_mapping".format(index_name,"fulltext"), json=data)
-    # print(res.content.decode('utf8'))
+    res = requests.post("http://localhost:9200/{0}/{1}/_mapping".format(index_name,"fulltext"), json=data)
+    print(res.content.decode('utf8'))
 
-def document_exist(md5):
+
+def document_exist(index_name,md5):
     http_template='http://localhost:9200/{0}/{1}/_search?q=md5:{2}'.format(index_name,type_name,md5)
     res = json.loads(requests.get(http_template).content.decode('utf8'))
     if "hits" in res.keys():
@@ -58,34 +65,18 @@ def post_document(index_name,docDict):
     docDict:ip,domain,hashValue,url
     """
     data=docDict
-    print("Doc posted:{0}".format(data))
+    #print("Doc posted:{0}".format(data))
     # 使用PUT请求将所有文档存入该索引
     res = requests.post("http://localhost:9200/{0}/fulltext".format(index_name),
                   json=data)
-
-
-def prepare_dict(docStr):
-    """
-    将结构化信息转换成 ES 需要的字典格式
-    :param docStr: 以,分割的结构化信息字符串
-    :return: ES 需要的字典格式
-    """
-    word=docStr.split(",")
-    return {"url": word[0], "ip": word[1], "domainName": word[2], "filehash": word[3]}
-
+    print(res.content.decode('utf8'))
+    return res
 """
 初始化搜索引擎里的索引,仅需要运行一次即可
 """
 def initial():       
     buildIndex()
 
-"""
-向搜索引擎中加入新文档的索引
-"""
-def addNewDoc(resList):
-    for res in resList:
-        resDict=prepare_dict(res)
-        post_document(index_name, resDict)
 def queryIndicator(queryStr):
     res=es.search(index="report", body={"query": {"match": {"_all":queryStr}}})
 def queryActor(queryStr):
@@ -113,7 +104,7 @@ def indexDict(dict,index):
     return res
 def prep_sea_res(queryStr):
     res={}
-    res['draw']=2
+    #res['draw']=2
     res['recordTotal']=1
     res['recordsFiltered']=1
     resList=queryAll(queryStr)
@@ -121,14 +112,14 @@ def prep_sea_res(queryStr):
     for item in resList:
         item_list=[]
         item_list.append(indexDict(item,'md5'))
-        item_list.append(indexDict(item,'title'))
-        item_list.append(indexDict(item,'time'))
+        item_list.append(indexDict(item,'Title'))
+        item_list.append(indexDict(item,'Date'))
         item_list.append(indexDict(item,'vendors'))
-        item_list.append(indexDict(item,'status'))
-        item_list.append(indexDict(item,'tlp'))
+        item_list.append(indexDict(item,'Status'))
+        item_list.append(indexDict(item,'TLP'))
         data.append(item_list)
     res['data']=data
-    return json.dumps(res)
+    return res
 def queryAll(queryStr):
     res=queryIndex("report","_all",queryStr)
     #print(res)
@@ -139,13 +130,36 @@ def queryAll(queryStr):
     # act=queryIndex("actor","_all",queryStr)
     # res=queryReport(act,"")
     return res
+def updateData(md5,data):
+    json_data=data
+    #print(json_data)
+    res=es.search(index="report", body = {'query':{'match':{'md5':md5}}})
+    hit=res['hits']['hits']
+    if hit==[]:
+        return
+    id=hit[0]['_id']
+    type=hit[0]['_type']
 
+    es.delete(index="report", doc_type =type, id =id)
+    json_data.pop('_id', None)
+    json_data['md5'] = md5
+    post_document("report",json_data)
+    print(json_data)
 def queryAllInfo(index):
     res = es.search(index=index, body={"query": {"match_all": {}}})
     for hit in res['hits']['hits']:
         print(hit['_source'])
+def deleteAllData():
+    index_list=['report','indicator','actor']
+    for index in index_list:
+        res = es.search(index=index, body={"query": {"match_all": {}}})
+        for hit in res['hits']['hits']:
+            id = hit['_id']
+            type = hit['_type']
+            es.delete(index=index, doc_type=type, id=id)
 if __name__ == "__main__":
-    #initial()
-    #queryAllInfo("indicator")
-    res=queryAll("paper.seebug.org")
-    print(res)
+    initial()
+    #deleteAllData()
+    queryAllInfo("report")
+    #res=queryAll("20170710-4")
+    #print(res)

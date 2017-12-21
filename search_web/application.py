@@ -22,14 +22,30 @@ def index___():
     if request.form['search[value]']=='':
         start = int(request.form['start'])
         end=int(request.form['length'])+start
-        return mongo_manager.getAllReportData(start, end)
+        res=mongo_manager.getAllReportData(start, end)
+        #return mongo_manager.getAllReportData(start, end)
     else:
-        return buildIndex.prep_sea_res(request.form['search[value]'])
+        res=buildIndex.prep_sea_res(request.form['search[value]'])
+    res['draw'] = request.form['draw']
+    return json.dumps(res)
 
 @app.route('/api/details',methods=['POST'])
 def index_details():
     md5 = request.form['md5']
     return mongo_manager.getMD5Data(md5)
+
+@app.route('/api/details/post',methods=['POST'])
+def index_details_post():
+    data = request.form['data']
+    # print("------------------------------------")
+    # print(data)
+    mongo_manager.updateData(json.loads(data))
+
+    return ""
+
+@app.route('/manege-list.html')
+def index_manage():
+    return render_template("manege-list.html")
 
 @app.route('/list.html')
 def index_():

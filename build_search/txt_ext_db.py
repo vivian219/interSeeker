@@ -22,12 +22,20 @@ def listen():
     while True:
         msg=json.loads(redis_sub.parse_response()[2])
         #print(msg)
-        if buildIndex.document_exist(msg['md5'])==False:
-            buildIndex.post_document(index, msg)
-        post=mongo_manager.stixReport(ID=msg["md5"],Title=msg["title"],Abstract=msg["abstract"],Tag=msg["tag"],URL=msg["urlList"],Date=msg["time"])
-        #es.index(index=index, doc_type="test-type", body={"any": "data", "timestamp": datetime.now()})
 
+        post=mongo_manager.stixReport(ID=msg["md5"],Title=msg["title"],Abstract=msg["abstract"],Tag=msg["tag"],URL=msg["urlList"],Date=msg["time"])
         post.save()
+        #es.index(index=index, doc_type="test-type", body={"any": "data", "timestamp": datetime.now()})
+        if buildIndex.document_exist(index,msg['md5'])==False:
+            #print("False")
+            rep_data = mongo_manager.stixReport.objects(ID=msg["md5"])[0].to_mongo()
+            #print("txt_ext_db",rep_data)
+            rep_data=dict(rep_data)
+            id=rep_data['_id']
+            rep_data.pop('_id', None)
+            rep_data['md5']=id
+            res=buildIndex.post_document(index, rep_data)
+
         #print('save')
 listen()
 def getAllData():
