@@ -47,6 +47,14 @@ def index_details_post():
 def index_manage():
     return render_template("manege-list.html")
 
+@app.route('/actor-list.html')
+def index_actor():
+    return render_template("actor-list.html")
+
+@app.route('/audit.html')
+def index_audit():
+    return render_template("audit.html")
+
 @app.route('/list.html')
 def index_():
     return render_template("list.html")

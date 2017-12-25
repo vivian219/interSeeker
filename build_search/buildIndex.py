@@ -15,7 +15,7 @@ def buildIndex():
     # 使用PUT请求创建一个索引
     print("build index")
     #es.indices.create(index="report")
-    index_name="indicator"
+    index_name="actor"
     res = requests.put("http://localhost:9200/{0}".format(index_name))
     print(res.content.decode('utf8'))
     # 设置分词
@@ -160,6 +160,6 @@ def deleteAllData():
 if __name__ == "__main__":
     initial()
     #deleteAllData()
-    queryAllInfo("report")
+    #queryAllInfo("report")
     #res=queryAll("20170710-4")
     #print(res)

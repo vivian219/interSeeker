@@ -25,7 +25,6 @@ class stixReport(Document):
     Date=StringField(required=True)
     Description=StringField()
     TLP=StringField()
-    Related=ListField(StringField())
     Actors=StringField()
     STIX2_Attack=StringField()
     Pattern=StringField()
@@ -179,7 +178,49 @@ def updateData(data):
     buildIndex.updateData(report[0],dict(rep_data))
     # for url in urls:
     #     updateIndicator(url)
-getAllReportData(0,5)
+def postActors(data):
+    post=stixThreatActor(
+        Name=data['name'],
+        First_Sighting = data['first_sighting'],
+        Description = data['description'],
+        Criticality = data['criticality'],
+        Classification_Family = data['classification_family'],
+        Classification_ID =data['classification_id'],
+        TLP = data['tlp'],
+        Actor_Types = data['actor_types'],
+        Motivations = data['motivations'],
+        Aliases = data['aliases'],
+        Communication_Addresses =data['communication_addresses'],
+        Financial_Accounts =data['financial_accounts'],
+        Country_Affiliations = data['country_affiliations'],
+        Known_Targets = data['known_targets'],
+        Actor_Suspected_Point_of_Origin = data['actor_suspected_point_of_origin'],
+        Infrastructure_IPv4s = data['infrastructure_ipv4s'],
+        Infrastructure_FQDNs = data['infrastructure_fqdns'],
+        Infrastructure_Action = data['infrastructure_action'],
+        Infrastructure_Ownership = data['infrastructure_ownership'],
+        Infrastructure_Status =data['infrastructure_status'],
+        Infrastructure_Types = data['infrastructure_types'],
+        Detection_Rules = data['detection_rules']
+    )
+    post.save()
+    if buildIndex.document_exist("actor", data['name']) == False:
+        rep_data =stixThreatActor.objects(Name=data["name"])[0].to_mongo()
+        rep_data = dict(rep_data)
+        id = rep_data['_id']
+        rep_data.pop('_id', None)
+        rep_data['name'] = id
+        res = buildIndex.post_document("actor", rep_data)
+def actorAttachRep(actorName,reportMd5):
+    report=stixReport(ID=reportMd5)
+    actorList=report.Actors.split(";")
+    if actorName not in actorList:
+        report.Actors=report.Actors+";"+actorName
+        report.save()
+def addActAttachRep(actor,reportMd5):
+    postActors(actor)
+    actorAttachRep(actor['name'],reportMd5)
+#getAllReportData(0,5)
 #getMD5Data("1d7ae8f7f5e5f0ce0171c021be32976c")
 """
 updateData(
@@ -211,3 +252,31 @@ updateData(
 
 )
 """
+'''
+postActors(
+{
+    "name":"APT10",
+    "first_sighting":"01/01/2010",
+    "description":"Attacks since 2010 against industries in Europe, the United States and Asian countries including South Korea and Japan. According to Cylance’s research department, the unknown attackers have adjusted and are focusing on targeting only Japanese companies. In addition, the actors are significantly resourced and financed with the purpose of maintaining a long-term espionage presence.",
+    "criticality":"95",
+    "classification_family":"Actors",
+    "classification_id":"",
+    "tlp":"White",
+    "actor_types":"Criminal",
+    "motivations":"Espionage",
+    "aliases":"Dust Storm",
+    "communication_addresses":"",
+    "financial_accounts":"",
+    "country_affiliations":"China",
+    "known_targets":"Japan",
+    "actor_suspected_point_of_origin":"China",
+    "infrastructure_ipv4s":"",
+    "infrastructure_fqdns":"",
+    "infrastructure_action":"",
+    "infrastructure_ownership":"",
+    "infrastructure_status":"Active",
+    "infrastructure_types":"",
+    "detection_rules":""
+}
+)
+'''

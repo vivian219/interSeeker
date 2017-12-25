@@ -249,17 +249,19 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
+	var urlinfo = window.location.href;//获取url
+	var keyword;  
+	if(urlinfo.indexOf("?")!=-1){
+		keyword = decodeURI(urlinfo.split("?")[1].split("=")[1]);//拆分url得到”=”后面的参数
+	}else{
+		keyword = "";
+	}
 
 	$('.coupled.modal')
 	  .modal({
 	    allowMultiple: false
 	  })
 	;
-	var keyword = '';
-    var urlinfo = window.location.href;//获取url
-    if(urlinfo.indexOf("?")!=-1){
-        keyword = decodeURI(urlinfo.split("?")[1].split("=")[1]);//拆分url得到”=”后面的参数
-    }
 
     var table = $('#example').DataTable(
      {
@@ -272,10 +274,7 @@ $(document).ready(function() {
             url: "http://127.0.0.1:8989/api",
             type: 'POST',
             data: function ( d ) {
-                if(keyword!==''){
-        		    d['search']['value'] = keyword;
-        		    keyword = '';
-        		}
+        		d['search']['value'] = keyword;
         	}
         },
         // dt.Columns["column_name"].SetOrdianl(0);
@@ -298,6 +297,7 @@ $(document).ready(function() {
                     }]
     }
     );
+
 
     $("#example tbody").on("click",".edit-btn",function(){
            var tds=$(this).parents("tr").children();

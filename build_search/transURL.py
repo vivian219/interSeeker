@@ -153,11 +153,13 @@ def spider_bot(txt,redis_obj,report_md5):
         m=re.match('.pdf$',url)
         if m is None:
             conTex=parse_html(url)
+            md5ConTex=url
         else:
             conTex=parse_pdf(url)
+            md5ConTex=conTex
         if conTex=="":
             continue
-        md5 = hashlib.md5(conTex.encode('utf-8')).hexdigest()
+        md5 = hashlib.md5(md5ConTex.encode('utf-8')).hexdigest()
         redis_obj.public(json.dumps({"md5":md5,"conTex":conTex,"report_md5":report_md5,"url":url}))
         contxtToFile(conTex,md5)
 def buildDoc(resList):
@@ -222,6 +224,3 @@ if __name__ == "__main__":
     txt_pub=redis_manager.TxtRedis()
     #addNewHTMLDoc(r"F:\实验室\安管中心-暑期项目\APT Feeds_v0.txt",spider_pub)
     addNewHTMLDoc("APT_test.txt", txt_pub,spider_pub)
-    #addNewPDFDoc("pdflist.txt")
-    # r=spider('https://www2.trustwave.com/rs/815-RFM-693/images/2017%20Trustwave%20Global%20Security%20Report-FINAL-6-20-2017.pdf')
-    # print(r)
