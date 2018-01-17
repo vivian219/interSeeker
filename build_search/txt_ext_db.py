@@ -26,7 +26,7 @@ def listen():
         post=mongo_manager.stixReport(ID=msg["md5"],Title=msg["title"],Abstract=msg["abstract"],Tag=msg["tag"],URL=msg["urlList"],Date=msg["time"])
         post.save()
         #es.index(index=index, doc_type="test-type", body={"any": "data", "timestamp": datetime.now()})
-        if buildIndex.document_exist(index,msg['md5'])==False:
+        if buildIndex.document_exist(index,"md5",msg['md5'])==False:
             #print("False")
             rep_data = mongo_manager.stixReport.objects(ID=msg["md5"])[0].to_mongo()
             #print("txt_ext_db",rep_data)

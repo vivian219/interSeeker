@@ -16,13 +16,13 @@ class stixIndicator(Document):
     Related_Reports=StringField(required=True)
 class stixReport(Document):
     ID=StringField(required=True,primary_key=True)
-    Title=StringField(required=True)
-    Abstract=StringField(required=True)
-    Tag=StringField(required=True)
-    URL=StringField(required=True)
+    Title=StringField()
+    Abstract=StringField()
+    Tag=StringField()
+    URL=StringField()
     vendors=StringField()
     Status=StringField()
-    Date=StringField(required=True)
+    Date=StringField()
     Description=StringField()
     TLP=StringField()
     Actors=StringField()
@@ -42,7 +42,7 @@ class stixThreatActor(Document):
     Name=StringField(required=True,primary_key=True)
     First_Sighting=StringField()
     Description=StringField()
-    Criticality=IntField()
+    Criticality=StringField()
     Classification_Family=StringField()
     Classification_ID=StringField()
     TLP=StringField()
@@ -69,12 +69,12 @@ def getAllReportData(start,end):
     requiredlist=[]
     data={}
     #data["draw"]="2"
-    data["recordsTotal"]=len(requiredData)
-    data[ "recordsFiltered"]=len(requiredData)
+    data["recordsTotal"]=len(allReport)
+    data[ "recordsFiltered"]=len(allReport)
     for item in requiredData:
         #print(item.to_mongo)
         # print(item.ID)
-        print(item.to_mongo())
+        #print(item.to_mongo())
         #print(item)
         _dict=dict(item.to_mongo())
         #print(_dict)
@@ -95,6 +95,39 @@ def getReportList(_dict):
     _list.append(getIndexData('Status', _dict))
     _list.append(getIndexData('TLP', _dict))
     return _list
+def getAllActorData(start,end):
+    allActor = stixThreatActor.objects.order_by('Name')
+    if end>len(allActor):
+        end=len(allActor)
+    requiredData = allActor[start:end]
+    data = {}
+    data["recordsTotal"] = len(allActor)
+    data["recordsFiltered"] = len(allActor)
+    dataList=[]
+    for item in requiredData:
+        itemList=[]
+        #print(item.to_mongo())
+        # print(item)
+        _dict = dict(item.to_mongo())
+        itemList.append(_dict['_id'])
+        itemList.append(_dict['First_Sighting'])
+        itemList.append(_dict['Criticality'])
+        itemList.append(_dict['Classification_Family'])
+        itemList.append(_dict['TLP'])
+        #requiredlist.append(_dict)
+        dataList.append(itemList)
+        # print(_list)
+    data["data"] = dataList
+    return data
+def getActorNameList():
+    allActor = stixThreatActor.objects.order_by('Name')
+    for item in allActor:
+        _dict = dict(item.to_mongo())
+
+def getNameActor(name):
+    actor=stixThreatActor.objects(Name=name)[0].to_mongo()
+    #print(actor)
+    return dict(actor)
 def getIndexData(index,_dict):
     try:
         data=_dict[index]
@@ -131,14 +164,25 @@ def getMD5Data(md5):
     merge_dict["urls"]=urls
     try:
         desc=_report[0].Description
+        if desc==None:
+            desc=""
     except:
         desc=""
     try:
         actors=_report[0].Actors
+        if actors==None:
+            actors=""
+
     except:
         actors=""
+    actorList=[]
+    if actors!="":
+        _actorList=actors.split(";")
+        for item in _actorList:
+            actorList.append([item])
+
     merge_dict["desc"]=desc
-    merge_dict["actors"]=actors
+    merge_dict["actors"]=actorList
     #print(json.dumps(merge_dict))
     return json.dumps(merge_dict)
 def updateReport(report,labels,abstract,desc,actors):
@@ -165,7 +209,7 @@ def updateIndicator(ind):
     ind_obj.update(IOC_IPV4=ind['ipv4'])
     ind_obj.update(Actors=ind['actors'])
     #print(ind['actors'])
-def updateData(data):
+def updateReportData(data):
     report=data["report"]
     labels=data["labels"]
     abstract=data["abstract"]
@@ -173,12 +217,21 @@ def updateData(data):
     desc=data['desc']
     actors=data['actors']
     updateReport(report,labels,abstract,desc,actors)
-    temp =stixReport.objects(ID=report[0])
     rep_data= stixReport.objects(ID=report[0])[0].to_mongo()
     buildIndex.updateData(report[0],dict(rep_data))
     # for url in urls:
     #     updateIndicator(url)
+def updateActorData(data):
+    stixThreatActor.objects(Name=data['name']).delete()
+    # print("a"+str(a))
+    # a.delete()
+    postActors(data)
+    act_data = stixThreatActor.objects(Name=data['name'])[0].to_mongo()
+    buildIndex.updateActorData(dict(act_data))
+
 def postActors(data):
+
+
     post=stixThreatActor(
         Name=data['name'],
         First_Sighting = data['first_sighting'],
@@ -204,22 +257,44 @@ def postActors(data):
         Detection_Rules = data['detection_rules']
     )
     post.save()
-    if buildIndex.document_exist("actor", data['name']) == False:
+    if buildIndex.document_exist("actor", "Name",data['name']) == False:
         rep_data =stixThreatActor.objects(Name=data["name"])[0].to_mongo()
         rep_data = dict(rep_data)
         id = rep_data['_id']
         rep_data.pop('_id', None)
-        rep_data['name'] = id
+        rep_data['Name'] = id
         res = buildIndex.post_document("actor", rep_data)
+        print(data['name']+"is new!")
+    else:
+        print(data['name']+"exist!!")
 def actorAttachRep(actorName,reportMd5):
-    report=stixReport(ID=reportMd5)
-    actorList=report.Actors.split(";")
-    if actorName not in actorList:
-        report.Actors=report.Actors+";"+actorName
-        report.save()
+    report=stixReport.objects(ID=reportMd5)[0]
+    actors=report['Actors']
+    #print("post new actor",actors)
+    if actors==None:
+        reportActors=actorName
+    else:
+        actorList=actors.split(";")
+        #print("actorList",actorList)
+        if actorName not in actorList:
+            reportActors=report.Actors+";"+actorName
+            #print("if ",reportActors)
+        else:
+            reportActors = report.Actors
+            #print("else",reportActors)
+    report.update(Actors=reportActors)
+
+    rep_data = stixReport.objects(ID=reportMd5)[0].to_mongo()
+    buildIndex.updateReportData(reportMd5,dict(rep_data))
 def addActAttachRep(actor,reportMd5):
     postActors(actor)
     actorAttachRep(actor['name'],reportMd5)
+def deleteData():
+    allActor = stixThreatActor.objects().delete()
+#deleteData()
+#print(getAllActorData(0,1))
+#print(getNameActor('APT10'))
+#print(getMD5Data("66029002775c24ed3287fa6b1cc175b9"))
 #getAllReportData(0,5)
 #getMD5Data("1d7ae8f7f5e5f0ce0171c021be32976c")
 """

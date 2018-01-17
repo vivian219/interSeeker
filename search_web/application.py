@@ -33,14 +33,33 @@ def index___():
 def index_details():
     md5 = request.form['md5']
     return mongo_manager.getMD5Data(md5)
+@app.route('/actor/details',methods=['POST'])
+def index_actor_details():
+    name = request.form['md5']
+    return json.dumps(mongo_manager.getNameActor(name))
 
 @app.route('/api/details/post',methods=['POST'])
 def index_details_post():
     data = request.form['data']
     # print("------------------------------------")
     # print(data)
-    mongo_manager.updateData(json.loads(data))
+    mongo_manager.updateReportData(json.loads(data))
+    return ""
 
+@app.route('/actor/details/post',methods=['POST'])
+def index_actor_details_post():
+    data = request.form['data']
+    # print("------------------------------------")
+    # print(data)
+    mongo_manager.updateActorData(dict(json.loads(data)))
+    return ""
+
+@app.route('/actor/details/new',methods=['POST'])
+def index_actor_details_new():
+    data = request.form['data']
+    # print("------------------------------------")
+    # print(data)
+    mongo_manager.postActors(json.loads(data))
     return ""
 
 @app.route('/manege-list.html')
@@ -50,6 +69,36 @@ def index_manage():
 @app.route('/actor-list.html')
 def index_actor():
     return render_template("actor-list.html")
+
+@app.route('/actor',methods=['POST'])
+def index_actor_list():
+    if request.form['search[value]'] == '':
+        start = int(request.form['start'])
+        end = int(request.form['length']) + start
+        res = mongo_manager.getAllActorData(start, end)
+        # return mongo_manager.getAllReportData(start, end)
+    else:
+        res = buildIndex.searchActor(request.form['search[value]'])
+    res['draw'] = request.form['draw']
+    return json.dumps(res)
+@app.route('/actor/details/search/items',methods=['GET'])
+def actor_detail_search_item():
+    queryStr=request.args.get("q")
+    return json.dumps(buildIndex.queryActorNameList(queryStr))
+@app.route('/link',methods=['POST'])
+def actor_link():
+    data = json.loads(request.form['data'])
+    md5=data['report_md5']
+    name=data['actor_name']
+    mongo_manager.actorAttachRep(name,md5)
+    return ""
+@app.route('/newlink',methods=['POST'])
+def actor_new_link():
+    data = json.loads(request.form['data'])
+    md5=data['report_md5']
+    actor=data['actor']
+    mongo_manager.addActAttachRep(actor,md5)
+    return ""
 
 @app.route('/audit.html')
 def index_audit():
@@ -65,6 +114,8 @@ def search_text():
     field=request.form['field']
     infos=search(field,query,index_name,type_name)
     return jsonify(infos)
+
+
 
 def search(field,query,index_str,type_str):
     http_template='http://localhost:9200/{0}/{1}/_search?q={2}:{3}'.format(index_str,type_str,field,query)

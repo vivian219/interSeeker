@@ -14,8 +14,6 @@ from pdfminer.converter import PDFPageAggregator
 from pdfminer.layout import LTTextBoxHorizontal, LAParams
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.pdfparser import PDFParser, PDFDocument
-
-import buildIndex
 import readTxt
 import redis_manager
 import hashlib
@@ -23,28 +21,6 @@ import json
 class ExtractMode(Enum):
     PDFMode = 1
     HTMLMode = 2
-def getURLlist():
-    f=open(r'F:\实验室\安管中心-暑期项目\urlfile.txt',"r",encoding='utf-8')
-    urlList=[]
-    for line in f.readlines():
-        urlList.append(line.split("\n")[0])
-    return urlList
-
-
-def filtURL(filename, urlList):
-    f=open(filename)
-    urlfile=open(r'F:\实验室\安管中心-暑期项目\urlfile.txt',r'a',encoding='utf-8')
-    filePat=re.compile(r'https?://.*')
-    newURL=[]
-    for line in f.readlines():
-        # 找出URL并存储在文件中
-        match=filePat.match(line)
-        if match and line not in urlList:
-            urlfile.write(line)
-        else:
-            continue
-        newURL.append(line)
-    return newURL
 
 """
 从url爬取内容并返回，当无法爬取或超时，返回为空
@@ -150,7 +126,7 @@ def contxtToFile(conTxt,md5):
 def spider_bot(txt,redis_obj,report_md5):
     urlList=txt.urlList
     for url in urlList:
-        m=re.match('.pdf$',url)
+        m=re.match('.+pdf$',url)
         if m is None:
             conTex=parse_html(url)
             md5ConTex=url
@@ -162,19 +138,6 @@ def spider_bot(txt,redis_obj,report_md5):
         md5 = hashlib.md5(md5ConTex.encode('utf-8')).hexdigest()
         redis_obj.public(json.dumps({"md5":md5,"conTex":conTex,"report_md5":report_md5,"url":url}))
         contxtToFile(conTex,md5)
-def buildDoc(resList):
-    """
-    :param resList:以','分隔的结构化信息
-    :return:
-    """
-    for res in resList:
-        resDict= buildIndex.prepare_dict(res)
-        if not buildIndex.document_exist(resDict["url"]):
-            buildIndex.post_document(buildIndex.index_name, resDict)
-        else:
-            print("{0} already exist!".format(resDict["url"]))
-
-
 """ HTML 爬取部分 """
 def addNewHTMLDoc(filename,txt_pub,spider_pub):
     """

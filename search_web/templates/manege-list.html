@@ -84,7 +84,7 @@
           <div class="ui form" onchange="detailModified()">
             <h3><i class="tags icon"></i><span id="m-title"></span></h3>
             <p>情报来源:　<span class="ui tiny icon transparent input">
-                  <input type="text" spellcheck="false" id="m-from" value="暂无">
+                  <input type="text" spellcheck="false" id="m-from" >
                 </span>
             发布日期:　<span id="m-cdate"></span></br>
             MD5:　<span id="m-md5"></span></br></p>
@@ -140,13 +140,11 @@
 			<table id="Actor-table" class="display ui celled table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Name</th>
-                        <th>First Sighting</th>
-                        <th>TLP</th>
-                        <th>Criticality</th>
-                        <th>Classification Family</th>
-                        <th>action</th>
+                        <!--<th>First Sighting</th>-->
+                        <!--<th>TLP</th>-->
+                        <!--<th>Criticality</th>-->
+                        <!--<th>Classification Family</th>-->
                     </tr>
                 </thead>
             </table>
@@ -216,7 +214,7 @@
 			</div>
 		</div>
 		<h5><i class="plus icon"></i>添加新增actor</h5>
-		<p>actor名称:　<span class="ui tiny icon transparent input">
+		<!-- <p>actor名称:　<span class="ui tiny icon transparent input">
                   <input type="text" spellcheck="false" id="n-name">
                 </span>
             观测日期:　<span class="ui tiny icon transparent input">
@@ -228,23 +226,204 @@
         actor描述:
         <div class="field" >
             <textarea spellcheck="false" rows="5" cols="60" id="n-desc"></textarea>
-        </div>
-        <button class="ui basic button" onclick="selectNewActor()">
-		  <i class="icon spy"></i>
-		  confirm Actor
-		</button>
+        </div> --><!-- selectNewActor() -->
+        <button class="ui basic button" onclick="toggleAddActorForm()">
+    		  <i class="icon spy"></i>
+    		  NEW Actor...
+    		</button>
 	  </div>
 	  <div class="actions">
 	    <div class="ui black deny button" onclick="toggleDetail()">
 	      取消
 	    </div>
-	    <div class="ui positive right labeled icon button" onclick="toggleDetail()">
+	    <div class="ui positive right labeled icon button" onclick="linkActor()">
 	      确定
 	      <i class="checkmark icon"></i>
 	    </div>
 	  </div>
 	</div>
 </div>
+
+
+<div class="ui coupled newactorform longer large modal">
+  <div class="header">
+  DETAILS
+  </div>
+  <div class="scrolling content">
+    <div class="description ui grid">
+      <div class="ui form">
+        <h3><i class="tags icon"></i><span id="title" class="ui long-input tiny icon transparent input black">
+              <input type="text" spellcheck="false" id="a-title" >
+            </span></h3>
+        <p>威胁程度:　<span class="ui tiny icon transparent input">
+              <input type="text" spellcheck="false" id="a-crit">
+            </span>
+        观测日期:　<span class="ui tiny icon transparent input">
+              <input type="text" spellcheck="false" id="a-cdate" >
+            </span></br>
+        <div class="ui divider"></div>
+        <div>
+            <!-- 状态:　<div class="ui label inline-div">已更新</div>　　 -->
+            TLP:
+            <div class="ui inline dropdown" id="tdropdown">
+              <div class="text ui label" id="a-tlp">
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div data-value="1" class="item">不可共享
+                </div>
+                <div data-value="2" class="item">组织内共享
+                </div>
+                <div data-value="3" class="item">组织外限制共享
+                </div>
+                <div data-value="4" class="item">广泛共享
+                </div>
+              </div>
+            </div>　
+
+            　　Classification Family:
+            <div class="ui inline dropdown" id="cfdropdown">
+              <div class="text ui label" id="a-cf">
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div data-value="1" class="item">Actors
+                </div>
+                <div data-value="2" class="item">Attack
+                </div>
+                <div data-value="3" class="item">Infrastructure
+                </div>
+                <div data-value="4" class="item">Intel
+                </div>
+                <div data-value="4" class="item">Malicious
+                </div>
+              </div>
+            </div>
+
+            　　Classification ID:
+            <span class="ui tiny icon transparent input">
+              <input type="text" spellcheck="false" id="a-ci" value="Black Hat">
+            </span>
+    <div class="ui fitted hidden divider"></div><div class="ui fitted hidden divider"></div>
+    Actor Types:
+            <div class="ui inline dropdown" id="atpdropdown">
+              <div class="text ui label" id="a-at" >
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div data-value="1" class="item">Criminal
+                </div>
+                <div data-value="2" class="item">Hacktivist
+                </div>
+                <div data-value="3" class="item">Nation State
+                </div>
+              </div>
+            </div>
+
+            　　Motivations:
+            <div class="ui inline dropdown" id="mtvdropdown">
+              <div class="text ui label" id="a-m">
+              </div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div data-value="1" class="item">Unknown
+                </div>
+                <div data-value="2" class="item">Deny
+                </div>
+                <div data-value="3" class="item">degrade
+                </div>
+                <div data-value="4" class="item">disrupt
+                </div>
+                <div data-value="4" class="item">destroy
+                </div>
+                <div data-value="4" class="item">manipulate info or info systems
+                </div>
+                <div data-value="4" class="item">Espionage
+                </div>
+                <div data-value="4" class="item">Extortion
+                </div>
+                <div data-value="4" class="item">Trading information for competitive advantage
+                </div>
+                <div data-value="4" class="item">Other
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <div class="ui divider"></div>
+        <!-- <div>文档标签:　<div class="inline-div" id="labellist">
+                <a class="ui label"><span>公开</span><i class="delete icon" onclick="delLabel(this)"></i></a>
+                <a class="ui label">安全漏洞<i class="delete icon" onclick="delLabel(this)"></i></a>
+            </div>
+            <a class="ui gray label" onclick="addLabel()"><i class="plus icon"></i>添加</a>
+            <div class="ui mini icon transparent input">
+              <input type="text" spellcheck="false" id="newlabel" placeholder="label...">
+            </div>
+        </div> -->
+        <!-- <div class="ui divider"></div> -->
+        <h5><i class="file text outline icon"></i>Actor描述</h5>
+        <div class="field">
+          <textarea spellcheck="false" id="ai-abstract"></textarea>
+        </div>
+        <div class="ui divider"></div>
+        Aliases: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-al" >
+        </span>
+        <p></p>
+        Communication Addresses: <span class="ui long-input tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-cad" >
+        </span>
+        <p></p>
+        Financial Accounts: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-fa" >
+        </span>
+        Country Affiliations: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-ca" >
+        </span><p></p>
+  Known Targets: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-kt" >
+        </span>
+  Actor Suspected Point of Origin: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-aspo" >
+        </span><p></p>
+        Infrastructure IPv4s: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-ii" >
+        </span>
+        Infrastructure FQDNs: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-if" >
+        </span><p></p>
+  infrastructure_action: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-ia" >
+        </span>
+        infrastructure_ownership: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-io" >
+        </span><p></p>
+        infrastructure_status: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-is" >
+        </span>
+  infrastructure_types: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-it" >
+        </span><p></p>
+        detection_rules: <span class="ui tiny icon transparent input">
+            <input type="text" class="bold" spellcheck="false" id="ai-dr" >
+        </span>
+
+  
+
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button" onclick="toggleAddActor()">
+      取消
+    </div>
+    <div class="ui positive right labeled icon button" onclick="confirmNewActor()">
+      确定
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
+
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -426,12 +605,13 @@ function tlpchange(val) {
   }
 }
 
-
+var nowReportMd5 ;
 function assignDetails(data){
     $('#m-title').text(data.report[1]);
     $('#m-from').val(data.report[3]);
     $('#m-cdate').text(data.report[2]);
     $('#m-md5').text(data.report[0]);
+    nowReportMd5 = data.report[0];
     $('#m-status').text(data.report[4]);
     var tlp = "";
     switch(data.report[5]){
@@ -466,7 +646,7 @@ function assignDetails(data){
 
     assignUrls(data.urls);
 
-    // assignActorList(data.actors);
+    assignActorList(data.actors);
 
     $('#save-tip').hide();
     
@@ -486,9 +666,14 @@ function toggleDetail() {
       .modal('show')
     ;
 }
+var table1
+// actor list 构造
 function assignActorList(actors) {
-
-	var table1 = $('#Actor-table').DataTable(
+  if(table1){
+    table1.clear();
+  }
+  
+	table1 = $('#Actor-table').DataTable(
      {
         "destroy": true,
         "data": actors,
@@ -499,23 +684,16 @@ function assignActorList(actors) {
         // "ajax": {
         //     url: "http://localhost//test/api.php",
         //     type: 'POST'
-        // },
-        "aoColumnDefs":[
-        // {"aTargets":[0],"mRender":function(data,type,full){
-        //                 var actorname = '<div class="ui link list">';
-        //                 for(item in data){
-        //                    actorname += '<a class="item">'+data[item]+'</a>';
-        //                 }
-        //                 actorname += "</div>";
-        //                 return actorname;
-        //             }}
-        	{"aTargets":[-1],"className":"center aligned","mRender":function(data,type,full){
-                        return '<div class="ui tiny button" onclick="">删除</div>';
-                    }}
-                    ]
+        // }
+        // "aoColumnDefs":[
+        	// {"aTargets":[-1],"className":"center aligned","mRender":function(data,type,full){
+         //                return '<div class="ui tiny button" onclick="">删除</div>';
+         //            }}
+         //            ]
     }
     );
 }
+// IOC列表构造
 function assignUrls(urls){
 	var columns = [
                     "md5",
@@ -565,40 +743,45 @@ function toggleAddActor(){
     ;
     searchActor();
 }
+function toggleAddActorForm(){
+  clearModalforadd();
+  $('.newactorform.modal')
+    .modal({closable: false})
+      .modal('show')
+    ;
+}
+
 var newActor = {
 	option: 0,
 	id: 0
 };
+// actor search
 function searchActor(){
 	$('.ui.actor.search')
 	  .search({
 	    apiSettings: {
-	      url: '//api.github.com/search/repositories?q={query}'
+	      url: 'http://127.0.0.1:8989/actor/details/search/items?q={query}'
 	    },
 	    fields: {
 	      results : 'items',
 	      title   : 'name',
 	      url     : 'javascript:void(0)',
-	      // action  : 'action'
+	      description     : 'first_sighting',
 	    },
 	    onSelect: function (result, response) {
 	    	$('#nname').text(result.name);
-	    	$('#ndate').text("2017-01-01");
-	    	newActor.option = 0;
-	    	newActor.id = result.id;
+	    	$('#ndate').text(result.first_sighting);
+	    	$('#nname').attr("option","LINK");
+        $('#nname').attr("TLP",result.tlp);
+        $('#nname').attr("Criticality",result.criticality);
+        $('#nname').attr("classification_family",result.classification_family);
 	    },
 	    minCharacters : 5,
 	    maxResults : 5
 	  })
 	;
 }
-function selectNewActor() {
-	$('#nname').text($('#n-name').val());
-	$('#ndate').text($('#n-date').val());
-	newActor.option = 1;
-	newActor.id = 0;
-}
-
+// 提交修改
 function postDetails() {
 	var data = {}
 
@@ -639,12 +822,119 @@ function postDetails() {
       }
     });    
 }
-
+// 从url中获取参数
 function getUrlParam(name){
 	var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
 	var r = window.location.search.substr(1).match(reg); //匹配目标参数
 	if (r!=null) return unescape(r[2]); return null; //返回参数值
 } 
+// ------------------newactor Modal-----------------------
+
+function linkActor(){
+    var option = $('#nname').attr("option");
+    var data = {};
+    var newrow;
+    if(option=="LINK"){
+        data["report_md5"] = nowReportMd5;
+        data["actor_name"] = $('#nname').text();
+         $.ajax({
+           type: 'POST',
+           url: "http://127.0.0.1:8989/link",
+           data: {"data":JSON.stringify(data)},
+           success: function(data){
+             alert("ok");
+           }
+         });
+        newrow = [$('#nname').text()];
+//            ,$('#ndate').text(),$('#nname').attr("TLP"),$('#nname').attr("Criticality"),$('#nname').attr("classification_family")];
+    }else{
+        data["report_md5"] = nowReportMd5;
+        data["actor"] = actordata;
+         $.ajax({
+           type: 'POST',
+           url: "http://127.0.0.1:8989/newlink",
+           data: {"data":JSON.stringify(data)},
+           success: function(data){
+             alert("ok");
+           }
+         });
+        console.log(data["actor"]);
+        newrow = [actordata['name']];
+//            ,actordata['first_sighting'],
+//        actordata['tlp'],actordata['criticality'],actordata['classification_family']];
+    }
+    table1.row.add(newrow).draw(); 
+    toggleDetail();
+}
+
+// 
+//-------------------newactorform Modal----------------------
+var actordata;
+function confirmNewActor(){
+    actordata = {};
+    actordata["name"] = $('#a-title').val();
+    actordata["first_sighting"] = $('#a-cdate').val();
+    actordata["description"] = $('#ai-abstract').val();
+    actordata["criticality"] = $('#a-crit').val();
+    actordata["classification_family"] = $('#a-cf').text();
+    actordata["classification_id"] = $('#a-ci').val();
+    actordata["tlp"] = $('#a-tlp').text();
+    actordata["actor_types"] = $('#a-at').text();
+    actordata["motivations"] = $('#a-m').text();
+    actordata["aliases"] = $('#ai-al').val();
+    actordata["communication_addresses"] = $('#ai-cad').val();
+    actordata["financial_accounts"] = $('#ai-fa').val();
+    actordata["country_affiliations"] = $('#ai-ca').val();
+    actordata["known_targets"] = $('#ai-kt').val();
+    actordata["actor_suspected_point_of_origin"] = $('#ai-aspo').val();
+    actordata["infrastructure_ipv4s"] = $('#ai-ii').val();
+    actordata["infrastructure_fqdns"] = $('#ai-if').val();
+    actordata["infrastructure_action"] = $('#ai-ia').val();
+    actordata["infrastructure_ownership"] = $('#ai-io').val();
+    actordata["infrastructure_status"] = $('#ai-is').val();
+    actordata["infrastructure_types"] = $('#ai-it').val();
+    actordata["detection_rules"] = $('#ai-dr').val();
+
+    toggleAddActor();
+    selectNewActor(actordata["name"],actordata["first_sighting"])
+}
+// 选定当前actor
+function selectNewActor(name, first_sighting) {
+
+    $('#nname').text(name);
+    $('#ndate').text(first_sighting);
+    $('#nname').attr("option","NEW");
+
+}
+
+function clearModalforadd(){
+  $("[id^='ai-']").val("");
+  $("#a-title").val("");
+  $("#a-crit").val("");
+  $("#a-cdate").val("");
+  $("#aid").hide();
+  $("#a-tlp").text(""); $("#a-cf").text("");
+  $("#a-at").text("");  $("#a-m").text("");
+  $("#a-ci").val("");   $('#ai_ia').val("");
+  $('#ai_io').val("");
+  $('#ai_is').val("");
+  $('#ai_it').val("");
+  $('#ai_dr').val("");
+
+    $('#tdropdown')
+      .dropdown()
+    ;
+    $('#cfdropdown')
+      .dropdown()
+    ;
+    $('#atpdropdown')
+      .dropdown()
+    ;
+    $('#mtvdropdown')
+      .dropdown()
+    ;
+}
+//
 </script>
 </body>
 </html>

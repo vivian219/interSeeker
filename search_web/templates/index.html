@@ -54,8 +54,8 @@
 				  <div class="text">Option</div>
 				  <i class="dropdown icon"></i>
 				  <div class="menu">
-				    <div class="item">Actor</div>
-				    <div class="item active selected">IOCs</div>
+				    <div class="item">actor</div>
+				    <div class="item active selected">report</div>
 				  </div>
 			  </div>
 			  <!-- <div class="ui button">Search</div> -->
@@ -197,12 +197,15 @@ $('.ui.dropdown').dropdown();
 
 
 $("#search-input").submit(function(e){	
-  // alert($(".ui.dropdown.index-option").dropdown("get value"));
-  // $(location).attr('href', 'http://127.0.0.1:8989/manege-list.html');
-  // test();
+	console.log($(".ui.dropdown.index-option").dropdown("get value"));
   if($('#keyword').val()=="")
   	return false;
-  var url = "manege-list.html?keyword="+$('#keyword').val();
+  var url;
+  if($(".ui.dropdown.index-option").dropdown("get value")=="actor")
+   	url = "actor-list.html?keyword="+$('#keyword').val();
+  else
+  	url = "manege-list.html?keyword="+$('#keyword').val();
+
   window.location.href=encodeURI(url);
   return false;
 });

@@ -19,7 +19,7 @@ def listen():
                              IOC_Domain=msg["dom_list"],IOC_IPV4=msg["ip_list"],
                              Related_Reports=msg["report_md5"],IOC_URL=msg["url"])
         post.save()
-        if buildIndex.document_exist(index,msg['md5']) == False:
+        if buildIndex.document_exist(index,"md5",msg['md5']) == False:
 
             rep_data = mongo_manager.stixIndicator.objects(ID=msg["md5"])[0].to_mongo()
             rep_data = dict(rep_data)

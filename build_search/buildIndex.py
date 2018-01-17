@@ -49,8 +49,8 @@ def buildIndex():
     print(res.content.decode('utf8'))
 
 
-def document_exist(index_name,md5):
-    http_template='http://localhost:9200/{0}/{1}/_search?q=md5:{2}'.format(index_name,type_name,md5)
+def document_exist(index_name,colName,colValue):
+    http_template='http://localhost:9200/{0}/{1}/_search?q={2}:{3}'.format(index_name,type_name,colName,colValue)
     res = json.loads(requests.get(http_template).content.decode('utf8'))
     if "hits" in res.keys():
         if res["hits"]["total"] == 0:
@@ -120,6 +120,24 @@ def prep_sea_res(queryStr):
         data.append(item_list)
     res['data']=data
     return res
+def searchActor(queryStr):
+    res={}
+    res['recordTotal']=1
+    res['recordsFiltered'] = 1
+    _res = es.search(index="actor", body={"query": {"match": {"_all": queryStr}}})
+    resList = []
+    for hit in _res['hits']['hits']:
+        itemList=[]
+        hitRes=hit["_source"]
+        itemList.append(hitRes['Name'])
+        itemList.append(hitRes['First_Sighting'])
+        itemList.append(hitRes['Criticality'])
+        itemList.append(hitRes['Classification_Family'])
+        itemList.append(hitRes['TLP'])
+        resList.append(itemList)
+        #print(hit['_source'])
+    res['data']=resList
+    return res
 def queryAll(queryStr):
     res=queryIndex("report","_all",queryStr)
     #print(res)
@@ -130,7 +148,7 @@ def queryAll(queryStr):
     # act=queryIndex("actor","_all",queryStr)
     # res=queryReport(act,"")
     return res
-def updateData(md5,data):
+def updateReportData(md5,data):
     json_data=data
     #print(json_data)
     res=es.search(index="report", body = {'query':{'match':{'md5':md5}}})
@@ -145,21 +163,62 @@ def updateData(md5,data):
     json_data['md5'] = md5
     post_document("report",json_data)
     print(json_data)
+def deleteSpecData(index_name,colName,colData):
+    res = es.search(index=index_name, body={'query': {'match': {colName: colData}}})
+    hit = res['hits']['hits']
+    if hit == []:
+        return
+    id = hit[0]['_id']
+    type = hit[0]['_type']
+    es.delete(index=index_name, doc_type=type, id=id)
+def updateActorData(data):
+    name=data['_id']
+    print(name)
+    res = es.search(index="actor", body={'query': {'match': {'Name': name}}})
+    hit = res['hits']['hits']
+    if hit==[]:
+        print("es update actor data failed")
+        return
+    for _hit in hit:
+        id=_hit['_id']
+        type=_hit['_type']
+        es.delete(index="actor", doc_type =type, id =id)
+    data.pop('_id', None)
+    data['Name'] = name
+    post_document("actor",data)
 def queryAllInfo(index):
     res = es.search(index=index, body={"query": {"match_all": {}}})
     for hit in res['hits']['hits']:
         print(hit['_source'])
+def queryActorNameList(queryStr):
+    res = es.search(index="actor", body={"query": {"match": {"_all": queryStr}}})
+    resList = []
+    resDict={}
+    for hit in res['hits']['hits']:
+        _res=hit["_source"]
+        itemDict={}
+        itemDict['name']=_res['Name']
+        itemDict['first_sighting'] = _res['First_Sighting']
+        resList.append(itemDict)
+        #print(hit['_source'])
+    resDict['items'] = resList
+    print(resDict)
+    return resDict
 def deleteAllData():
-    index_list=['report','indicator','actor']
+    index_list=['actor']
     for index in index_list:
         res = es.search(index=index, body={"query": {"match_all": {}}})
         for hit in res['hits']['hits']:
             id = hit['_id']
             type = hit['_type']
             es.delete(index=index, doc_type=type, id=id)
+
 if __name__ == "__main__":
-    initial()
+    #initial()
     #deleteAllData()
-    #queryAllInfo("report")
+    #deleteSpecData("actor",'Name','Wekby')
+    queryActorNameList("Wekby")
+    #queryAllInfo("actor")
     #res=queryAll("20170710-4")
     #print(res)
+    print(searchActor("APT"))
