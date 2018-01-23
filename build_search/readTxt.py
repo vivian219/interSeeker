@@ -10,10 +10,13 @@ class txtStruct:
 def getStructData(filename):
     print("get the data")
     dataPat='(\d{8})-((\d)+)'
-    f=open(filename)
+    f=open(filename,encoding='utf-8',errors='ignore')
     line = f.readline()  # 调用文件的 readline()方法
     txtStruList=[]
     while line:
+        if line =="" :
+            line = f.readline()
+            continue
         mat=re.match(dataPat,line)
         if not mat:
             line = f.readline()
