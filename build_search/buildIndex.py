@@ -7,17 +7,18 @@ Created on Mon Jul 17 20:25:56 2017
 import requests
 from elasticsearch import Elasticsearch
 import json
+import logging
 
 type_name = "fulltext"
 
 es=Elasticsearch()
 def buildIndex():
     # 使用PUT请求创建一个索引
-    print("build index")
+    logging.info("build index")
     #es.indices.create(index="report")
     index_name="actor"
     res = requests.put("http://localhost:9200/{0}".format(index_name))
-    print(res.content.decode('utf8'))
+    logging.info(res.content.decode('utf8'))
     # 设置分词
     data = {
         type_name: {
@@ -46,7 +47,7 @@ def buildIndex():
         }
     }
     res = requests.post("http://localhost:9200/{0}/{1}/_mapping".format(index_name,"fulltext"), json=data)
-    print(res.content.decode('utf8'))
+    logging.info(res.content.decode('utf8'))
 
 
 def document_exist(index_name,colName,colValue):
@@ -82,16 +83,24 @@ def queryIndicator(queryStr):
 def queryActor(queryStr):
     res=es.search(index="report", body={"query": {"match": {"_all": queryStr}}})
 def queryReport(queryStr):
-    res=es.search(index="report", body={"query": {"match": {"_all": queryStr}}})
+    #res=es.search(index="report", body={"query": {"match": {"_all": queryStr}}})
+    res = es.search(index="report", body={"query": {"fuzzy": {"_all": queryStr}}})#,"fuzziness":3,"max_expansions":100
+'''
+DEBUG
+'''
 def queryIndex(index,con,queryStr):
-    res = es.search(index=index, body={"query": {"match": {con:queryStr}}})
+    res = es.search(index=index, body={"query": {"fuzzy": {con:queryStr}}})
     resList=[]
     for hit in res['hits']['hits']:
         resList.append(hit["_source"])
     return resList
+'''
+DEBUG:queryStr->indicator report_md5
+'''
 def queryReport(sourceItem,index,queryStr,res):
     for item in sourceItem:
-        item_res=queryIndex("report",index,queryStr)
+        print(item)
+        item_res=queryIndex("report",index,item['Related_Reports'])
         for _res in item_res:
             res.append(_res)
     return res
@@ -117,6 +126,7 @@ def prep_sea_res(queryStr):
         item_list.append(indexDict(item,'vendors'))
         item_list.append(indexDict(item,'Status'))
         item_list.append(indexDict(item,'TLP'))
+        item_list.append(indexDict(item,'Source'))
         data.append(item_list)
     res['data']=data
     return res
@@ -143,7 +153,7 @@ def queryAll(queryStr):
     #print(res)
     ind=queryIndex("indicator","_all",queryStr)
     #print(ind)
-    res=queryReport(ind,"'report_md5",queryStr,res)
+    res=queryReport(ind,"report_md5",queryStr,res)
     #print(res)
     # act=queryIndex("actor","_all",queryStr)
     # res=queryReport(act,"")
@@ -205,20 +215,26 @@ def queryActorNameList(queryStr):
     print(resDict)
     return resDict
 def deleteAllData():
-    index_list=['actor']
+    index_list=['actor','report','indicator']
     for index in index_list:
-        res = es.search(index=index, body={"query": {"match_all": {}}})
+        res = es.search(index=index, body={"query": {"match_all": {}},"size":1000})
         for hit in res['hits']['hits']:
             id = hit['_id']
             type = hit['_type']
             es.delete(index=index, doc_type=type, id=id)
 
+
 if __name__ == "__main__":
     #initial()
     #deleteAllData()
     #deleteSpecData("actor",'Name','Wekby')
-    queryActorNameList("Wekby")
-    #queryAllInfo("actor")
+    #queryActorNameList("Wekby")
+    #queryAllInfo("indicator")
     #res=queryAll("20170710-4")
+    print("hello,world")
     #print(res)
-    print(searchActor("APT"))
+    #print(searchActor("APT"))
+
+
+
+

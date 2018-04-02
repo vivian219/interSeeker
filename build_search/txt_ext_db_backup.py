@@ -3,7 +3,6 @@ import redis_manager
 import json
 import mongo_manager
 import buildIndex
-import time
 
 connect('monoengine_test',host='localhost',port=27017)
 index="report"
@@ -22,12 +21,9 @@ msg format
 def listen():
     while True:
         msg=json.loads(redis_sub.parse_response()[2])
-        print("txt extend msg:")
-        print(msg)
-        print("receiving msg from txt public")
-        _time = time.strftime('%Y-%m-%d', time.localtime(time.time()))  # 在循环体中加上time
-        post=mongo_manager.stixReport(ID=msg["md5"],Title=msg["title"],Abstract=msg["abstract"],Tag=msg["tag"],URL=msg["urlList"],Date=msg["time"],vendors=msg["vendor"],
-                                      Source=msg["source"],LoginTime=str(_time))
+        #print(msg)
+
+        post=mongo_manager.stixReport(ID=msg["md5"],Title=msg["title"],Abstract=msg["abstract"],Tag=msg["tag"],URL=msg["urlList"],Date=msg["time"])
         post.save()
         #es.index(index=index, doc_type="test-type", body={"any": "data", "timestamp": datetime.now()})
         if buildIndex.document_exist(index,"md5",msg['md5'])==False:

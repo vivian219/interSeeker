@@ -136,7 +136,7 @@ def spider_bot(txt,redis_obj,report_md5):
         if conTex=="":
             continue
         md5 = hashlib.md5(md5ConTex.encode('utf-8')).hexdigest()
-        redis_obj.public(json.dumps({"md5":md5,"conTex":conTex,"report_md5":report_md5,"url":url}))
+        redis_obj.public(json.dumps({"md5":md5,"conTex":conTex,"report_md5":report_md5,"url":url,"source":"txt"}))
         contxtToFile(conTex,md5)
 """ HTML 爬取部分 """
 def addNewHTMLDoc(filename,txt_pub,spider_pub):
@@ -151,7 +151,7 @@ def addNewHTMLDoc(filename,txt_pub,spider_pub):
         md5 = hashlib.md5(item.abstract.encode('utf-8')).hexdigest()
         spider_bot(item,spider_pub,md5)
 
-        txt_pub.public(json.dumps({"md5":md5,"title":item.title,"tag":item.tag,"abstract":item.abstract,"time":item.time,"urlList":str(item.urlList)}))
+        txt_pub.public(json.dumps({"md5":md5,"title":item.title,"tag":item.tag,"abstract":item.abstract,"time":item.time,"urlList":str(item.urlList),"vensor":""}))
         #res_list = parser(newURL, ExtractMode.HTMLMode)
     # 为文档建立索引
     #[FIX]buildDoc(res_list)

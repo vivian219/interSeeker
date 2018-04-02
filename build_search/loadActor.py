@@ -1,10 +1,24 @@
 import json
 import mongo_manager
 import buildIndex
+import time
+
 f=open('actortrackr_export_20171204.json')
 line=f.readline()
 lineDict=json.loads(line)
 actorList=lineDict['actors']
+
+def listToStr(_list):
+    listStr = ""
+    first=True
+    for item in _list:
+        if item != ''and not first:
+            listStr += ","
+        listStr += item.split('\n')[0]
+        first=False
+    print("the list item is", _list)
+    print("transform list to string is ", listStr)
+    return listStr
 
 for _actor in actorList:
     #print(actor)
@@ -13,7 +27,7 @@ for _actor in actorList:
     # print(_actor['_source'].keys())
     actor=_actor['_source']
     # print(actor['type'])
-
+    _time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
     post=mongo_manager.stixThreatActor(
             Name=actor['name'],
             First_Sighting = actor['created_s'],
@@ -22,21 +36,22 @@ for _actor in actorList:
             Classification_Family = actor['classification'][0]['family'],
             Classification_ID =actor['classification'][0]['id'],
             TLP = str(actor['tlp']),
-            Actor_Types = str(actor['type']),
-            Motivations = str(actor['motivation']),
-            Aliases = str(actor['alias']),
+            Actor_Types = listToStr(actor['type']),
+            Motivations = listToStr(actor['motivation']),
+            Aliases = listToStr(actor['alias']),
             Communication_Addresses =actor['communication_address'][0]['value'],
-            Financial_Accounts =str(actor['financial_account'][0]['value']),
-            Country_Affiliations = str(actor['country_affiliation']),
-            Known_Targets = str(actor['known_target']),
+            Financial_Accounts =listToStr(actor['financial_account'][0]['value']),
+            Country_Affiliations = listToStr(actor['country_affiliation']),
+            Known_Targets = listToStr(actor['known_target']),
             Actor_Suspected_Point_of_Origin = actor['origin'],
-            Infrastructure_IPv4s = str(actor['infrastructure']['ipv4']),
-            Infrastructure_FQDNs = str(actor['infrastructure']['fqdn']),
+            Infrastructure_IPv4s = listToStr(actor['infrastructure']['ipv4']),
+            Infrastructure_FQDNs = listToStr(actor['infrastructure']['fqdn']),
             Infrastructure_Action = actor['infrastructure']['action'],
             #Infrastructure_Ownership = actor['infrastructure_ownership'],
             Infrastructure_Status =actor['infrastructure']['status'],
             Infrastructure_Types = actor['infrastructure']['type'][0],
-            Detection_Rules = actor['detection_rule'][0]['value']
+            Detection_Rules = actor['detection_rule'][0]['value'],
+            LoginTime=str(_time)
         )
     post.save()
     if buildIndex.document_exist("actor", "Name",actor['name']) == False:

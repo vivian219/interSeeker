@@ -3,7 +3,7 @@ import redis_manager
 import json
 import mongo_manager
 import buildIndex
-
+import time
 connect('monoengine_test', host='localhost', port=27017)
 index="indicator"
 
@@ -13,11 +13,12 @@ def listen():
     while True:
 
         msg = json.loads(redis_sub.parse_response()[2])
-
+        _time = time.strftime('%Y-%m-%d', time.localtime(time.time()))  # 在循环体中加上time
         #print(msg)#print(redis_sub.parse_response())
         post = mongo_manager.stixIndicator(ID=msg["md5"],IOC_MD5=msg["hash_list"],
                              IOC_Domain=msg["dom_list"],IOC_IPV4=msg["ip_list"],
-                             Related_Reports=msg["report_md5"],IOC_URL=msg["url"])
+                             Related_Reports=msg["report_md5"],IOC_URL=msg["url"],
+                                           LoginTime=str(_time))
         post.save()
         if buildIndex.document_exist(index,"md5",msg['md5']) == False:
 

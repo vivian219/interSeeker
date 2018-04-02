@@ -22,6 +22,18 @@ class ParseExcel:
             row = sheet.row_values(i)
             self.makeup(row)
 
+    def listToStr(self,_list):
+        listStr=""
+        first = True
+
+        for item in _list :
+            if item !='' and not first:
+                listStr+=","
+            listStr+=item.split('\n')[0]
+            first = False
+        print("the list item is",_list)
+        print("transform list to string is ",listStr)
+        return listStr
     def makeup(self, row):
         report = {}
         report["report"] = [
@@ -31,13 +43,13 @@ class ParseExcel:
         ]
         report["label"] = row[2]   # labels
         report["abstract"] = row[1]     # abstract
-        report["url"] = row[3].split('\n')     # split urls
+        report["url"] = self.listToStr(row[3].split('\n'))     # split urls
         report["hash"] = row[7].split('\n')     # split spiteful hash
         report["ip"] = row[8].split('\n')  # split spiteful ip
         report["domain"] = row[9].split('\n')  # split spiteful domain
         report["urls"] = row[11].split('\n')  # split spiteful url
-        # maybe others to add...
 
+        # maybe others to add...
         self.reports.append( report )
 
     def postIndicator(self,data):
@@ -56,7 +68,7 @@ class ParseExcel:
     def postReport(self,report):
         index="report"
         post = mongo_manager.stixReport(ID=report["md5"], Title=report["title"], Abstract=report["abstract"], Tag=report["tag"],
-                                        URL=report["url"], Date=report["time"],vendors=report['vendor'])
+                                        URL=report["url"], Date=report["time"],vendors=report['vendor'],Source="excel")
         post.save()
         # es.index(index=index, doc_type="test-type", body={"any": "data", "timestamp": datetime.now()})
         if buildIndex.document_exist(index, "md5", report['md5']) == False:
