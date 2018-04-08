@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Semantic UI</title>
+	<title>Intelseeker</title>
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="static/semantic/dist/semantic.min.css">
 	<script type="text/javascript" src="static/semantic/dist/semantic.min.js"></script>
@@ -25,23 +25,26 @@
   <div class="ui inverted secondary menu">
   	<div class="item">
 	   <img  src="static/images/icon1.png">
-	   <a href="index.html"><span style="font-size: medium;">&nbsp;IntelTrackr</span> </a>
+	   <a href="index.html"><span style="font-size: medium;">&nbsp;IntelSeeker</span> </a>
 	</div>
     <a class="item active">
-      Info List
+      情报列表
     </a>
     <a class="item" href="actor-list.html">
-      Actor List
+      组织列表
     </a>
     <a class="item" href="audit.html">
-      Verify
+      管理审核
     </a>
     <div class="right menu">
+      <a class="ui item" href="upload.html">
+      	情报文件上传
+      </a>
 	  <div class="item">
 		<p style="font-family: '微软雅黑'; font-style: italic;">Administrator</p>
 	  </div>
 	  <a class="ui item" onclick="toggleLogin()">
-	    Logout
+	    登出
 	  </a>
 	</div>
   </div>
@@ -77,7 +80,7 @@
     <div class="ui coupled longer details large modal">
       <i class="close icon"></i>
       <div class="header">
-      DETAILS
+      详情
       </div>
       <div class="scrolling content">
         <div class="description ui grid">
@@ -140,7 +143,7 @@
 			<table id="Actor-table" class="display ui celled table" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>名称</th>
                         <!--<th>First Sighting</th>-->
                         <!--<th>TLP</th>-->
                         <!--<th>Criticality</th>-->
@@ -204,12 +207,12 @@
     <div class="ui coupled newactor longer modal">
 	  <div class="content">
 	  	<span class="bold">待添加Actor:　　</span>
-	  	<span id="nname">None</span>　　
-	  	<span id="ndate">None</span>
+	  	<span id="nname">暂无</span>　　
+	  	<span id="ndate">暂无</span>
 	  	<h5><i class="database icon"></i>添加已有actor</h5>
 	    <div class="ui actor search right floated">
 			<div class="ui left icon input">
-				<input class="prompt" type="text" placeholder="Search Actor">
+				<input class="prompt" type="text" placeholder="搜索Actor">
 				<i class="spy icon"></i>
 			</div>
 		</div>
@@ -229,7 +232,7 @@
         </div> --><!-- selectNewActor() -->
         <button class="ui basic button" onclick="toggleAddActorForm()">
     		  <i class="icon spy"></i>
-    		  NEW Actor...
+    		  新建Actor...
     		</button>
 	  </div>
 	  <div class="actions">
@@ -247,7 +250,7 @@
 
 <div class="ui coupled newactorform longer large modal">
   <div class="header">
-  DETAILS
+  详情
   </div>
   <div class="scrolling content">
     <div class="description ui grid">
@@ -281,7 +284,7 @@
               </div>
             </div>　
 
-            　　Classification Family:
+            分类类型:
             <div class="ui inline dropdown" id="cfdropdown">
               <div class="text ui label" id="a-cf">
               </div>
@@ -300,12 +303,12 @@
               </div>
             </div>
 
-            　　Classification ID:
+            分类ID:
             <span class="ui tiny icon transparent input">
               <input type="text" spellcheck="false" id="a-ci" value="Black Hat">
             </span>
     <div class="ui fitted hidden divider"></div><div class="ui fitted hidden divider"></div>
-    Actor Types:
+    组织种类:
             <div class="ui inline dropdown" id="atpdropdown">
               <div class="text ui label" id="a-at" >
               </div>
@@ -320,7 +323,7 @@
               </div>
             </div>
 
-            　　Motivations:
+            动机:
             <div class="ui inline dropdown" id="mtvdropdown">
               <div class="text ui label" id="a-m">
               </div>
@@ -361,50 +364,50 @@
             </div>
         </div> -->
         <!-- <div class="ui divider"></div> -->
-        <h5><i class="file text outline icon"></i>Actor描述</h5>
+        <h5><i class="file text outline icon"></i>组织描述</h5>
         <div class="field">
           <textarea spellcheck="false" id="ai-abstract"></textarea>
         </div>
         <div class="ui divider"></div>
-        Aliases: <span class="ui tiny icon transparent input">
+        别称: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-al" >
         </span>
         <p></p>
-        Communication Addresses: <span class="ui long-input tiny icon transparent input">
+        通讯地址: <span class="ui long-input tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-cad" >
         </span>
         <p></p>
-        Financial Accounts: <span class="ui tiny icon transparent input">
+        财务账户: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-fa" >
         </span>
-        Country Affiliations: <span class="ui tiny icon transparent input">
+        国家联盟: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-ca" >
         </span><p></p>
-  Known Targets: <span class="ui tiny icon transparent input">
+  	已知目标: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-kt" >
         </span>
-  Actor Suspected Point of Origin: <span class="ui tiny icon transparent input">
+  	组织可能起源点: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-aspo" >
         </span><p></p>
-        Infrastructure IPv4s: <span class="ui tiny icon transparent input">
+        基础设施IPv4s: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-ii" >
         </span>
-        Infrastructure FQDNs: <span class="ui tiny icon transparent input">
+        基础设施FQDNs: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-if" >
         </span><p></p>
-  infrastructure_action: <span class="ui tiny icon transparent input">
+  	基础设施行为: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-ia" >
         </span>
-        infrastructure_ownership: <span class="ui tiny icon transparent input">
+        基础设施所有权: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-io" >
         </span><p></p>
-        infrastructure_status: <span class="ui tiny icon transparent input">
+        基础设施状态: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-is" >
         </span>
-  infrastructure_types: <span class="ui tiny icon transparent input">
+  	基础设施种类: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-it" >
         </span><p></p>
-        detection_rules: <span class="ui tiny icon transparent input">
+        检测规则: <span class="ui tiny icon transparent input">
             <input type="text" class="bold" spellcheck="false" id="ai-dr" >
         </span>
 
@@ -448,7 +451,7 @@ $(document).ready(function() {
         "ordering": false, // 禁止排序 
         "bAutoWidth": false,
         "ajax": {
-            url: "http://127.0.0.1:8989/api",
+            url: "/api",
             type: 'POST',
             data: function ( d ) {
                 if(keyword!==''){
@@ -457,9 +460,33 @@ $(document).ready(function() {
         		}
         	}
         },
+	language: {
+        "sProcessing": "处理中...",
+        "sLengthMenu": "显示 _MENU_ 项结果",
+        "sZeroRecords": "没有匹配结果",
+        "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+        "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索:",
+        "sUrl": "",
+        "sEmptyTable": "表中数据为空",
+        "sLoadingRecords": "载入中...",
+        "sInfoThousands": ",",
+        "oPaginate": {
+            "sFirst": "首页",
+            "sPrevious": "上页",
+            "sNext": "下页",
+            "sLast": "末页"
+        	},
+        "oAria": {
+            "sSortAscending": ": 以升序排列此列",
+            "sSortDescending": ": 以降序排列此列"
+        	}
+    	},
         // dt.Columns["column_name"].SetOrdianl(0);
         "aoColumnDefs":[
-        {"aTargets":[0],sWidth:"8%"},
+        {"aTargets":[0],sWidth:"8%","visible":false},
         // ,"mRender":function(data, type, full, meta){  
         //     return meta.row + 1 + meta.settings._iDisplayStart;  }
           // },
@@ -533,7 +560,7 @@ function readOnlyDetails(data){
 
     $.ajax({
       type: 'POST',
-      url: "http://127.0.0.1:8989/api/details",
+      url: "/api/details",
       data: {"md5":data},
       success: function(data){
         assignDetails(data);
@@ -581,22 +608,22 @@ function delLabel(obj) {
 function tlpchange(val) {
   var obj = $('#m-tlp');
   switch(val){
-    case "不可共享":
+    case "1":
       obj.toggleClass("red",true);
       obj.toggleClass("orange",false);
       obj.toggleClass("green",false);
       obj.toggleClass("white",false); break;
-    case "组织内共享":
+    case "2":
       obj.toggleClass("red",false);
       obj.toggleClass("orange",true);
       obj.toggleClass("green",false);
       obj.toggleClass("white",false); break;
-    case "组织外限制共享":
+    case "3":
       obj.toggleClass("red",false);
       obj.toggleClass("orange",false);
       obj.toggleClass("green",true);
       obj.toggleClass("white",false); break;
-    case "广泛共享":
+    case "4":
       obj.toggleClass("red",false);
       obj.toggleClass("orange",false);
       obj.toggleClass("green",false);
@@ -613,25 +640,13 @@ function assignDetails(data){
     $('#m-md5').text(data.report[0]);
     nowReportMd5 = data.report[0];
     $('#m-status').text(data.report[4]);
-    var tlp = "";
-    switch(data.report[5]){
-        case "0":
-          tlp = "不可共享"; break;
-        case "1":
-          tlp = "组织内共享"; break;
-        case "2":
-          tlp = "组织外限制共享"; break;
-        case "3":
-          tlp = "广泛共享"; break;
-        default:
-          tlp = "暂无状态";break;
-    }
-    // $('#m-tlp').text(tlp);
+    
     $('#TLPdropdown')
 	  .dropdown('set selected',"2")
 	;
-	tlpchange(data.report[5]);
-    $('#m-tlp').attr("val",data.report[5]);
+    tlpchange($('#TLPdropdown').dropdown('get value'));
+    //alert(data.report[5]);
+    //$('#m-tlp').attr("val",data.report[5]);
 
 
     $('#labellist').empty();
@@ -681,6 +696,9 @@ function assignActorList(actors) {
         "paging": false,
         "bLengthChange": false,   //去掉每页显示多少条数据方法
         "ordering": false, // 禁止排序
+        language: {
+        "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+        "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项"},
         // "ajax": {
         //     url: "http://localhost//test/api.php",
         //     type: 'POST'
@@ -707,7 +725,7 @@ function assignUrls(urls){
                   <a><i class="plus circle icon" onclick="toggleUrlList(this)"></i></a> \
                   <a class="item" href="'+urls[item].url+'" target="_">'+urls[item].url+'</a> \
               </div>'; 
-        htmlcode += '<table class="ui celled compact padded table list-hidden"><thead><tr><th>IOC_MD5</th><th>IOC_DOMAIN</th><th>IOC_IPV4</th><th>Related Actors</th><th>Related Reports</th></tr></thead><tbody><tr>';
+        htmlcode += '<table class="ui celled compact padded table list-hidden"><thead><tr><th>IOC_MD5</th><th>IOC_域名</th><th>IOC_IPV4</th><th>相关组织</th><th>相关情报</th></tr></thead><tbody><tr>';
         
         // htmlcode += '<td><div class="ui link list"><a class="item">'+data.urls[item]['md5']+'</a></div></td>';
         for(var i=0; i<columns.length; i+=1){
@@ -760,7 +778,7 @@ function searchActor(){
 	$('.ui.actor.search')
 	  .search({
 	    apiSettings: {
-	      url: 'http://127.0.0.1:8989/actor/details/search/items?q={query}'
+	      url: '/actor/details/search/items?q={query}'
 	    },
 	    fields: {
 	      results : 'items',
@@ -776,7 +794,7 @@ function searchActor(){
         $('#nname').attr("Criticality",result.criticality);
         $('#nname').attr("classification_family",result.classification_family);
 	    },
-	    minCharacters : 5,
+	    minCharacters : 3,
 	    maxResults : 5
 	  })
 	;
@@ -815,7 +833,7 @@ function postDetails() {
 
     $.ajax({
       type: 'POST',
-      url: "http://127.0.0.1:8989/api/details/post",
+      url: "/api/details/post",
       data: {"data":JSON.stringify(data)},
       success: function(data){
         alert("ok");
@@ -839,7 +857,7 @@ function linkActor(){
         data["actor_name"] = $('#nname').text();
          $.ajax({
            type: 'POST',
-           url: "http://127.0.0.1:8989/link",
+           url: "/link",
            data: {"data":JSON.stringify(data)},
            success: function(data){
              alert("ok");
@@ -852,7 +870,7 @@ function linkActor(){
         data["actor"] = actordata;
          $.ajax({
            type: 'POST',
-           url: "http://127.0.0.1:8989/newlink",
+           url: "/newlink",
            data: {"data":JSON.stringify(data)},
            success: function(data){
              alert("ok");

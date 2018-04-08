@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Semantic UI</title>
+	<title>IntelSeeker</title>
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="static/semantic/dist/semantic.min.css">
 	<script type="text/javascript" src="static/semantic/dist/semantic.min.js"></script>
@@ -35,23 +35,23 @@
   <div class="ui inverted secondary menu">
   	<div class="item" >
        <img  src="static/images/icon1.png">
-	   <a href="index.html"><span style="font-size: medium;">&nbsp;IntelTrackr</span> </a>
+	   <a href="index.html"><span style="font-size: medium;">&nbsp;IntelSeeker</span> </a>
 	</div>
     <a class="item" href="manege-list.html">
-      Info List
+      情报列表
     </a>
     <a class="item active">
-      Actor List
+      组织列表
     </a>
     <a class="item" href="audit.html">
-      Verify
+      管理审核
     </a>
     <div class="right menu">
 	  <div class="item">
 		<p style="font-family: '微软雅黑'; font-style: italic;">Administrator</p>
 	  </div>
 	  <a class="ui item" onclick="toggleLogin()">
-	    Logout
+	    登出
 	  </a>
 	</div>
   </div>
@@ -62,22 +62,22 @@
 	<table id="example" class="display ui celled table" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>Actor Name</th>
+                <th>组织名称</th>
                 <th>首次观测时间</th>
                 <th>危险程度</th>
-                <th>Classification Family</th>
+                <th>分类类别</th>
                 <th>TLP</th>
-                <th>action</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <th>Actor Name</th>
+                <th>组织名称</th>
                 <th>首次观测时间</th>
                 <th>危险程度</th>
-                <th>Classification Family</th>
+                <th>分类类别</th>
                 <th>TLP</th>
-                <th>action</th>
+                <th>操作</th>
             </tr>
         </tfoot>
     </table>
@@ -94,7 +94,7 @@
     <div class="ui coupled longer details large modal">
       <i class="close icon"></i>
       <div class="header">
-      DETAILS
+      详情
       </div>
       <div class="scrolling content">
         <div class="description ui grid">
@@ -129,7 +129,7 @@
                   </div>
                 </div>　
 
-                　　Classification Family:
+                　　分类类别
                 <div class="ui inline dropdown" id="cfdropdown">
                   <div class="text ui label" id="a-cf">
                   </div>
@@ -148,12 +148,12 @@
                   </div>
                 </div>
 
-                　　Classification ID:
+                　　分类ID:
                 <span class="ui tiny icon transparent input">
                   <input type="text" spellcheck="false" id="a-ci" value="Black Hat">
                 </span>
 				<div class="ui fitted hidden divider"></div><div class="ui fitted hidden divider"></div>
-				Actor Types:
+				组织种类:
                 <div class="ui inline dropdown" id="atpdropdown">
                   <div class="text ui label" id="a-at" >
                   </div>
@@ -168,7 +168,7 @@
                   </div>
                 </div>
 
-                　　Motivations:
+                　　动机:
                 <div class="ui inline dropdown" id="mtvdropdown">
                   <div class="text ui label" id="a-m">
                   </div>
@@ -214,45 +214,45 @@
               <textarea spellcheck="false" id="ai-abstract"></textarea>
             </div>
            	<div class="ui divider"></div>
-           	Aliases: <span class="ui tiny icon transparent input">
+           	别称: <span class="ui long-input tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-al" value="暂无">
             </span>
            	<p></p>
-           	Communication Addresses: <span class="ui long-input tiny icon transparent input">
+           	通讯地址: <span class="ui long-input tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-cad" value="暂无">
             </span>
             <p></p>
-            Financial Accounts: <span class="ui tiny icon transparent input">
+            财务账户: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-fa" value="暂无">
             </span>
-            Country Affiliations: <span class="ui tiny icon transparent input">
+            国家联盟: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-ca" value="暂无">
             </span><p></p>
-			Known Targets: <span class="ui tiny icon transparent input">
+			已知目标: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-kt" value="暂无">
             </span>
-			Actor Suspected Point of Origin: <span class="ui tiny icon transparent input">
+			组织可能起源点: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-aspo" value="暂无">
             </span><p></p>
-            Infrastructure IPv4s: <span class="ui tiny icon transparent input">
+            基础设施IPv4s: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-ii" value="暂无">
             </span>
-            Infrastructure FQDNs: <span class="ui tiny icon transparent input">
+            基础设施FQDNs: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-if" value="暂无">
             </span><p></p>
-			infrastructure_action: <span class="ui tiny icon transparent input">
+		基础设施行为: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-ia" value="暂无">
             </span>
-            infrastructure_ownership: <span class="ui tiny icon transparent input">
+            基础设施所有权: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-io" value="暂无">
             </span><p></p>
-            infrastructure_status: <span class="ui tiny icon transparent input">
+            基础设施状态: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-is" value="暂无">
             </span>
-			infrastructure_types: <span class="ui tiny icon transparent input">
+		基础设施种类: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-it" value="暂无">
             </span><p></p>
-            detection_rules: <span class="ui tiny icon transparent input">
+            检测规则: <span class="ui tiny icon transparent input">
                 <input type="text" class="bold" spellcheck="false" id="ai-dr" value="暂无">
             </span>
 
@@ -328,7 +328,7 @@ function insertBtn(){
 	$('#example_length').parent('.column').after('<div class="three wide column" class></div><div class="three wide column">\
 						<button class="ui basic button" id="addactorbtn" onclick="toggleAdd()">\
 						  <i class="icon plus"></i>\
-						  Add Actor\
+						  添加组织\
 						</button>\
 					</div>');
 
@@ -358,7 +358,7 @@ $(document).ready(function() {
         "ordering": false, // 禁止排序
         "bAutoWidth": true,
         "ajax": {
-            url: "http://127.0.0.1:8989/actor",
+            url: "/actor",
             type: 'POST',
             data: function ( d ) {
                 if(keyword!==''){
@@ -367,6 +367,30 @@ $(document).ready(function() {
 	        	}
 	        }
         },
+	language: {
+        	"sProcessing": "处理中...",
+        	"sLengthMenu": "显示 _MENU_ 项结果",
+        	"sZeroRecords": "没有匹配结果",
+        	"sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+        	"sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+        	"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+        	"sInfoPostFix": "",
+        	"sSearch": "搜索:",
+        	"sUrl": "",
+        	"sEmptyTable": "表中数据为空",
+        	"sLoadingRecords": "载入中...",
+        	"sInfoThousands": ",",
+        	"oPaginate": {
+            	"sFirst": "首页",
+            	"sPrevious": "上页",
+            	"sNext": "下页",
+            	"sLast": "末页"
+        	},
+        	"oAria": {
+            	"sSortAscending": ": 以升序排列此列",
+           	 "sSortDescending": ": 以降序排列此列"
+        	}
+    	},
         "aoColumnDefs":[{"aTargets":[3],"mRender":function(data,type,full){
                      return "<a href=\"http://www.baidu.com/\" target=\"_\">"+data+"</a>    "}
                     },{"aTargets":[5],sWidth:"13%","className":"center aligned","mRender":function(data,type,full){
@@ -388,7 +412,7 @@ function readOnlyDetails(data){
 
     $.ajax({
       type: 'POST',
-      url: "http://127.0.0.1:8989/actor/details",
+      url: "/actor/details",
       data: {"md5":data},
       success: function(data){
         assignDetails(data);
@@ -419,6 +443,8 @@ function detailSaved() {
 function assignDetails(data){
     
     $('#a-title').val(data["_id"]);
+    $("#a-title").attr('readonly','readonly');
+
     $('#a-cdate').val(data["First_Sighting"]);
     $('#ai-abstract').val(data["Description"]);
     $('#a-crit').val(data["Criticality"]);
@@ -445,6 +471,7 @@ function assignDetails(data){
 	ifnew= false;
     toggleDetail();
     
+    $('#a-crit').focus();
 }
 function toggleDetail() {
 	$('.longer.details.modal')
@@ -452,6 +479,7 @@ function toggleDetail() {
       .modal('show')
     ;
     $('#save-tip').hide();
+    $('#submit-change').toggleClass("disabled",true);
     $('#TLPdropdown')
       .dropdown({
       	"onChange": function(){
@@ -523,6 +551,7 @@ function str2Array(origin){
 function clearModalforadd(){
 	$("[id^='ai-']").val("");
 	$("#title").removeClass("disabled");
+	$("#a-title").removeAttr('readonly');
 	$("#a-title").val("");
 	$("#a-crit").val("");
 	$("#a-cdate").val("");
@@ -573,7 +602,7 @@ function postDetails(url) {
 
     $.ajax({
       type: 'POST',
-      url: "http://127.0.0.1:8989/actor/details/"+url,
+      url: "/actor/details/"+url,
       data: {"data":JSON.stringify(data)},
       success: function(data){
         $('#submit-change').toggleClass("disabled",true);

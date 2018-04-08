@@ -2,12 +2,39 @@
 from flask import Flask,render_template,request,jsonify
 import requests
 import json
-import mongo_manager
-import buildIndex
-
+import sys
+from build_search import mongo_manager
+from build_search import buildIndex
+from build_search import loadPDF
 app=Flask(__name__)
 index_name='malextend'
 type_name='fulltext'
+#2018.3.3 upload
+import os
+from werkzeug import secure_filename
+UPLOAD_FOLDER = 'F:/PythonProjects/ElasticSearchWeb/build_search/uploadFile/'
+ALLOWED_EXTENSIONS = set(['pdf'])
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    para = json.loads(request.form['para'])
+    print(request.form)
+    length = int(para['len'])
+    for i in range(length):
+        file = request.files['f'+str(i)]
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            loadPDF.uploadFile(UPLOAD_FOLDER+filename,filename,para)
+    return str(request.form['para'])
+#2018.3.3 upload end
+
 
 @app.route('/index.html')
 def index():
@@ -16,6 +43,20 @@ def index():
 @app.route('/')
 def index__():
     return render_template("index.html")
+@app.route('/api/index',methods=['POST'])
+def stat():
+    data=mongo_manager.statistic()
+    res = {}
+    res['sum'] = []
+    res['sum'].append(data["pdf"])
+    res['sum'].append(data["other"])
+    res['ioc']=data['report']
+    res['actor']=data['actor']
+    #res['ioc'] = ["www.asd.com","asdkhas.cn","qeqeeq.net","www.asd.com","asdkhas.cn","qeqeeq.net","www.asd.com","asdkhas.cn","qeqeeq.net","asdjds.cd"]
+    #res['actor'] = ["www.asd.com","asdkhas.cn","qeqeeq.net","www.asd.com","asdkhas.cn","qeqeeq.net","www.asd.com","asdkhas.cn","qeqeeq.net","yuiyui.du"]
+    return json.dumps(res)
+
+
 @app.route('/api',methods=['POST'])
 def index___():
     print(request.form['search[value]'])
@@ -41,8 +82,8 @@ def index_actor_details():
 @app.route('/api/details/post',methods=['POST'])
 def index_details_post():
     data = request.form['data']
-    # print("------------------------------------")
-    # print(data)
+    print("------------------------------------")
+    print(data)
     mongo_manager.updateReportData(json.loads(data))
     return ""
 
@@ -127,6 +168,12 @@ def search(field,query,index_str,type_str):
             new_list.append(item["_source"])
     print(new_list)
     return new_list
+
+@app.route('/upload.html')
+def upload():
+    return render_template("upload.html")
+
+
 
 if __name__=='__main__':
     app.debug=True

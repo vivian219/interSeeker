@@ -2,25 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af51e970-b637-4e77-aec7-bd0dec411e17" name="Default" comment="增加了搜索界面的内容">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build_search/CERT预警情报_20171225_20171226.xlsx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build_search/CERT预警情报_20171225_20171229.xlsx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build_search/CERT预警情报_20180103_20180110.xlsx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build_search/loadActor.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build_search/loadPDF.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build_search/parse_excel.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build_search/redis_pub.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/search_web/templates2/actor-list.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/search_web/templates2/audit.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/search_web/templates2/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/search_web/templates2/manege-list.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/search_web/templates/index.v0.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/search_web/templates/indexv1.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/search_web/templates/list.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/search_web/templates/listv0.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/search_web/templates/semantic.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/search_web/templates/test.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_search/buildIndex.py" afterPath="$PROJECT_DIR$/build_search/buildIndex.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_search/extract_ext_db.py" afterPath="$PROJECT_DIR$/build_search/extract_ext_db.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_search/mongo_manager.py" afterPath="$PROJECT_DIR$/build_search/mongo_manager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_search/transURL.py" afterPath="$PROJECT_DIR$/build_search/transURL.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_search/txt_ext_db.py" afterPath="$PROJECT_DIR$/build_search/txt_ext_db.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search_web/application.py" afterPath="$PROJECT_DIR$/search_web/application.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search_web/static/css/buttons.css" afterPath="$PROJECT_DIR$/search_web/static/css/buttons.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search_web/static/css/list.css" afterPath="$PROJECT_DIR$/search_web/static/css/list.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search_web/templates/actor-list.html" afterPath="$PROJECT_DIR$/search_web/templates/actor-list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search_web/templates/audit.html" afterPath="$PROJECT_DIR$/search_web/templates/audit.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search_web/templates/index.html" afterPath="$PROJECT_DIR$/search_web/templates/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search_web/templates/manege-list.html" afterPath="$PROJECT_DIR$/search_web/templates/manege-list.html" />
     </list>
@@ -32,18 +25,21 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/ElasticSearchWeb$txt_ext_db.coverage" NAME="txt_ext_db Coverage Results" MODIFIED="1515856094997" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
-    <SUITE FILE_PATH="coverage/ElasticSearchWeb$loadPDF.coverage" NAME="loadPDF Coverage Results" MODIFIED="1515929785594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
-    <SUITE FILE_PATH="coverage/ElasticSearchWeb$mongo_manager.coverage" NAME="mongo_manager Coverage Results" MODIFIED="1514522973897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$txt_ext_db.coverage" NAME="txt_ext_db Coverage Results" MODIFIED="1522659548844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$loadPDF.coverage" NAME="loadPDF Coverage Results" MODIFIED="1520225732597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$rand_gen.coverage" NAME="rand_gen Coverage Results" MODIFIED="1520485993659" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$mongo_manager.coverage" NAME="mongo_manager Coverage Results" MODIFIED="1522662073548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
     <SUITE FILE_PATH="coverage/Search$testPdf_Slate.coverage" NAME="testPdf_Slate Coverage Results" MODIFIED="1511147670925" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ElasticSearchWeb$transURL.coverage" NAME="transURL Coverage Results" MODIFIED="1515395239993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
-    <SUITE FILE_PATH="coverage/ElasticSearchWeb$loadActor.coverage" NAME="loadActor Coverage Results" MODIFIED="1515312053026" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
-    <SUITE FILE_PATH="coverage/ElasticSearchWeb$parse_excel.coverage" NAME="parse_excel Coverage Results" MODIFIED="1515833490736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
-    <SUITE FILE_PATH="coverage/ElasticSearchWeb$extract_ext_db.coverage" NAME="extract_ext_db Coverage Results" MODIFIED="1515856086147" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
-    <SUITE FILE_PATH="coverage/ElasticSearchWeb$buildIndex.coverage" NAME="buildIndex Coverage Results" MODIFIED="1514523915309" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$extract_ext_db.coverage" NAME="extract_ext_db Coverage Results" MODIFIED="1522659537278" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$parse_excel.coverage" NAME="parse_excel Coverage Results" MODIFIED="1522659578304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$loadActor.coverage" NAME="loadActor Coverage Results" MODIFIED="1522661216393" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$buildIndex.coverage" NAME="buildIndex Coverage Results" MODIFIED="1522659446475" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
     <SUITE FILE_PATH="coverage/Search$application.coverage" NAME="application Coverage Results" MODIFIED="1511162214307" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/search_web" />
-    <SUITE FILE_PATH="coverage/ElasticSearchWeb$extract_bot.coverage" NAME="extract_bot Coverage Results" MODIFIED="1515856090656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
-    <SUITE FILE_PATH="coverage/ElasticSearchWeb$application.coverage" NAME="application Coverage Results" MODIFIED="1515930650898" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/search_web" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$extract_bot.coverage" NAME="extract_bot Coverage Results" MODIFIED="1522659540717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$downloadPDF__1_.coverage" NAME="downloadPDF (1) Coverage Results" MODIFIED="1520143091215" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/files" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$application.coverage" NAME="application Coverage Results" MODIFIED="1522662090521" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/search_web" />
+    <SUITE FILE_PATH="coverage/ElasticSearchWeb$downloadPDF.coverage" NAME="downloadPDF Coverage Results" MODIFIED="1520079364302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Search$buildIndex.coverage" NAME="buildIndex Coverage Results" MODIFIED="1511161524974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/build_search" />
   </component>
   <component name="FavoritesManager">
@@ -51,38 +47,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="transURL.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build_search/transURL.py">
+      <file leaf-file-name="buildIndex.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build_search/buildIndex.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="128" column="32" lean-forward="false" selection-start-line="128" selection-start-column="32" selection-end-line="128" selection-end-column="32" />
-              <folding>
-                <element signature="e#139#148#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="5038">
+              <caret line="232" column="31" lean-forward="false" selection-start-line="232" selection-start-column="31" selection-end-line="232" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loadPDF.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="application.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/search_web/application.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3586">
+              <caret line="169" column="19" lean-forward="false" selection-start-line="169" selection-start-column="19" selection-end-line="169" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mongo_manager.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build_search/mongo_manager.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="347" column="26" lean-forward="true" selection-start-line="347" selection-start-column="26" selection-end-line="347" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="loadPDF.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build_search/loadPDF.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="80" column="34" lean-forward="false" selection-start-line="80" selection-start-column="34" selection-end-line="80" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="txt_ext_db.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build_search/txt_ext_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-242">
-              <caret line="7" column="14" lean-forward="true" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="169">
+              <caret line="81" column="19" lean-forward="true" selection-start-line="81" selection-start-column="19" selection-end-line="81" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -98,22 +98,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getAllAc</find>
-      <find>get</find>
-      <find>actor</find>
-      <find>updateA</find>
-      <find>contact</find>
-      <find>post</find>
-      <find>postA</find>
-      <find>es up</find>
-      <find>name</find>
-      <find>es</find>
-      <find>atta</find>
-      <find>update</find>
-      <find>rep_obj.update</find>
-      <find>queryA</find>
-      <find>searchA</find>
-      <find>delete</find>
       <find>getActor</find>
       <find>family</find>
       <find>classification_family</find>
@@ -128,7 +112,26 @@
       <find>infrastructure</find>
       <find>bot</find>
       <find>buildIndex.do</find>
+      <find>top</find>
+      <find>requests.ge</find>
+      <find>p</find>
+      <find>print</find>
+      <find>search</find>
+      <find>api/ind</find>
+      <find>/actor</find>
+      <find>time</find>
+      <find>getAllReportData</find>
+      <find>source</find>
+      <find>api</find>
+      <find>过滤</find>
+      <find>getAllReport</find>
+      <find>dict</find>
+      <find>actor</find>
+      <find>/api</find>
     </findStrings>
+    <dirStrings>
+      <dir>F:\PythonProjects\ElasticSearchWeb\files</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -145,11 +148,9 @@
         <option value="$PROJECT_DIR$/build_search/mongoengine_test.py" />
         <option value="$PROJECT_DIR$/build_search/extend_to_mongo.py" />
         <option value="$PROJECT_DIR$/build_search/mongo_ext_mongo.py" />
-        <option value="$PROJECT_DIR$/build_search/readTxt.py" />
         <option value="$PROJECT_DIR$/build_search/redis_manager.py" />
         <option value="$PROJECT_DIR$/build_search/spider_ext_mongo.py" />
         <option value="$PROJECT_DIR$/build_search/mongodb.py" />
-        <option value="$PROJECT_DIR$/search_web/templates/index.html" />
         <option value="$PROJECT_DIR$/search_web/templates/list.html" />
         <option value="$PROJECT_DIR$/build_search/extract_bot.py" />
         <option value="$PROJECT_DIR$/build_search/extract_ext_mongo.py" />
@@ -158,15 +159,21 @@
         <option value="$PROJECT_DIR$/build_search/md5_test.py" />
         <option value="$PROJECT_DIR$/search_web/templates/actor-list.html" />
         <option value="$PROJECT_DIR$/search_web/templates/manege-list.html" />
-        <option value="$PROJECT_DIR$/search_web/application.py" />
-        <option value="$PROJECT_DIR$/build_search/extract_ext_db.py" />
-        <option value="$PROJECT_DIR$/build_search/loadActor.py" />
-        <option value="$PROJECT_DIR$/build_search/buildIndex.py" />
-        <option value="$PROJECT_DIR$/build_search/txt_ext_db.py" />
+        <option value="$PROJECT_DIR$/build_search/readTxt.py" />
+        <option value="$PROJECT_DIR$/downloadPDF.py" />
+        <option value="$PROJECT_DIR$/files/downloadPDF.py" />
+        <option value="$PROJECT_DIR$/rand_gen.py" />
+        <option value="$PROJECT_DIR$/search_web/my.log" />
         <option value="$PROJECT_DIR$/build_search/parse_excel.py" />
-        <option value="$PROJECT_DIR$/build_search/mongo_manager.py" />
         <option value="$PROJECT_DIR$/build_search/transURL.py" />
         <option value="$PROJECT_DIR$/build_search/loadPDF.py" />
+        <option value="$PROJECT_DIR$/build_search/txt_ext_db.py" />
+        <option value="$PROJECT_DIR$/build_search/extract_ext_db.py" />
+        <option value="$PROJECT_DIR$/build_search/loadActor.py" />
+        <option value="$PROJECT_DIR$/search_web/templates/index.html" />
+        <option value="$PROJECT_DIR$/build_search/buildIndex.py" />
+        <option value="$PROJECT_DIR$/search_web/application.py" />
+        <option value="$PROJECT_DIR$/build_search/mongo_manager.py" />
       </list>
     </option>
   </component>
@@ -177,10 +184,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-84" />
-    <option name="y" value="-11" />
-    <option name="width" value="1258" />
-    <option name="height" value="788" />
+    <option name="x" value="32" />
+    <option name="y" value="54" />
+    <option name="width" value="697" />
+    <option name="height" value="735" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -217,6 +224,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -232,30 +241,35 @@
             <path>
               <item name="ElasticSearchWeb" type="b2602c69:ProjectViewProjectNode" />
               <item name="ElasticSearchWeb" type="462c0819:PsiDirectoryNode" />
-              <item name="search_web" type="462c0819:PsiDirectoryNode" />
+              <item name="build_search" type="462c0819:PsiDirectoryNode" />
+              <item name="conTxt" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ElasticSearchWeb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ElasticSearchWeb" type="462c0819:PsiDirectoryNode" />
+              <item name="build_search" type="462c0819:PsiDirectoryNode" />
+              <item name="uploadFile" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/downloadPDF.py" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\PythonProjects\ElasticSearchWeb\build_search" />
+      <recent name="F:\PythonProjects\ElasticSearchWeb\search_web\static\css" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\qianl\PycharmProjects\Search\search_web\templates" />
       <recent name="C:\Users\qianl\PycharmProjects\Search\build_search" />
       <recent name="C:\Users\qianl\PycharmProjects\Search" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\PythonProjects\ElasticSearchWeb\build_search" />
-      <recent name="F:\PythonProjects\ElasticSearchWeb\search_web\static\css" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -289,7 +303,7 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="extract_bot" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="loadActor" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -302,12 +316,12 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Search" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build_search/extract_bot.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build_search/loadActor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="extract_ext_db" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="mongo_manager" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -320,12 +334,12 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Search" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build_search/extract_ext_db.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build_search/mongo_manager.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="loadPDF" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="parse_excel" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -338,7 +352,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Search" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build_search/loadPDF.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build_search/parse_excel.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -362,19 +376,19 @@
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.application" />
-      <item index="1" class="java.lang.String" itemvalue="Python.loadPDF" />
-      <item index="2" class="java.lang.String" itemvalue="Python.extract_ext_db" />
-      <item index="3" class="java.lang.String" itemvalue="Python.extract_bot" />
-      <item index="4" class="java.lang.String" itemvalue="Python.txt_ext_db" />
+      <item index="0" class="java.lang.String" itemvalue="Python.txt_ext_db" />
+      <item index="1" class="java.lang.String" itemvalue="Python.parse_excel" />
+      <item index="2" class="java.lang.String" itemvalue="Python.application" />
+      <item index="3" class="java.lang.String" itemvalue="Python.mongo_manager" />
+      <item index="4" class="java.lang.String" itemvalue="Python.loadActor" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.application" />
-        <item index="1" class="java.lang.String" itemvalue="Python.loadPDF" />
-        <item index="2" class="java.lang.String" itemvalue="Python.txt_ext_db" />
-        <item index="3" class="java.lang.String" itemvalue="Python.extract_bot" />
-        <item index="4" class="java.lang.String" itemvalue="Python.extract_ext_db" />
+        <item index="1" class="java.lang.String" itemvalue="Python.mongo_manager" />
+        <item index="2" class="java.lang.String" itemvalue="Python.loadActor" />
+        <item index="3" class="java.lang.String" itemvalue="Python.parse_excel" />
+        <item index="4" class="java.lang.String" itemvalue="Python.txt_ext_db" />
       </list>
     </recent_temporary>
   </component>
@@ -413,7 +427,21 @@
       <option name="project" value="LOCAL" />
       <updated>1513673751857</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="备份">
+      <created>1521445482110</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1521445482110</updated>
+    </task>
+    <task id="LOCAL-00005" summary="增加了event类，完善了首页的统计功能。&#10;增加了PDF上传功能">
+      <created>1522681823028</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1522681823029</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -427,18 +455,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16565809" sideWeight="0.7513369" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2753404" sideWeight="0.7513369" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294893" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50247115" sideWeight="0.5030257" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32857144" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5568369" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32454696" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32784185" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24052718" sideWeight="0.4969743" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35255355" sideWeight="0.4969743" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3476112" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4365733" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17927383" sideWeight="0.2486631" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47116968" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46952224" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -446,7 +475,7 @@
       <window_info id="Regex Tester" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27090302" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32454696" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33772653" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -492,11 +521,13 @@
     <MESSAGE value="增加了搜索界面的内容" />
     <MESSAGE value="对接URL列表展示" />
     <MESSAGE value="add search" />
-    <option name="LAST_COMMIT_MESSAGE" value="add search" />
+    <MESSAGE value="备份" />
+    <MESSAGE value="增加了event类，完善了首页的统计功能。&#10;增加了PDF上传功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加了event类，完善了首页的统计功能。&#10;增加了PDF上传功能" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="31" />
+      <option name="time" value="45" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -505,36 +536,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build_search/pdflist.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="32" lean-forward="true" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_search/APT_test.txt" />
-    <entry file="file://E:/Anaconda/Lib/re.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="165" column="42" lean-forward="false" selection-start-line="165" selection-start-column="42" selection-end-line="165" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_search/pymongo_test.py" />
-    <entry file="file://$PROJECT_DIR$/build_search/redis_test.py" />
-    <entry file="file://$PROJECT_DIR$/build_search/mongoengine_test.py" />
-    <entry file="file://$PROJECT_DIR$/build_search/extend_to_mongo.py" />
-    <entry file="file://$PROJECT_DIR$/build_search/spider_extend.py" />
-    <entry file="file://$PROJECT_DIR$/build_search/mongo_ext_mongo.py" />
-    <entry file="file://E:/Anaconda/Lib/site-packages/bs4/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="180" column="0" lean-forward="false" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_search/spider_ext_mongo.py" />
-    <entry file="file://$PROJECT_DIR$/build_search/mongodb.py" />
     <entry file="file://$USER_HOME$/.PyCharmCE2017.2/system/python_stubs/-727401014/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
@@ -542,21 +543,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/search_web/templates/index.v0.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="78" column="35" lean-forward="true" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/search_web/templates/index.v0.html" />
     <entry file="file://$PROJECT_DIR$/search_web/templates/indexv1.html" />
-    <entry file="file://$PROJECT_DIR$/search_web/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="24" lean-forward="false" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/search_web/templates/listv0.html" />
     <entry file="file://$PROJECT_DIR$/search_web/templates/list.html" />
     <entry file="file://$PROJECT_DIR$/search_web/templates/test.html" />
@@ -577,13 +565,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/search_web/templates/manege-list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="896" column="0" lean-forward="false" selection-start-line="896" selection-start-column="0" selection-end-line="896" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/search_web/templates/actor-list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
@@ -599,60 +580,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt" />
-    <entry file="file://$PROJECT_DIR$/build_search/loadActor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="29" column="58" lean-forward="false" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_search/buildIndex.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4818">
-          <caret line="221" column="31" lean-forward="false" selection-start-line="221" selection-start-column="31" selection-end-line="221" selection-end-column="31" />
-          <folding>
-            <element signature="e#85#100#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_search/actor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_search/readTxt.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build_search/redis_pub.py" />
-    <entry file="file://$PROJECT_DIR$/build_search/extract_bot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="68" column="36" lean-forward="true" selection-start-line="68" selection-start-column="36" selection-end-line="68" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_search/extract_ext_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="28" column="57" lean-forward="true" selection-start-line="17" selection-start-column="7" selection-end-line="28" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/search_web/application.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="45" column="28" lean-forward="true" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://E:/Anaconda/Lib/site-packages/rope/base/oi/soa.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -671,62 +599,193 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="98">
           <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build_search/parse_excel.py">
+    <entry file="file://$PROJECT_DIR$/build_search/extract_bot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="104" column="69" lean-forward="true" selection-start-line="104" selection-start-column="69" selection-end-line="104" selection-end-column="69" />
+        <state relative-caret-position="462">
+          <caret line="23" column="9" lean-forward="false" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/Anaconda/Lib/asyncio/base_events.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="109">
+          <caret line="465" column="0" lean-forward="false" selection-start-line="465" selection-start-column="0" selection-end-line="465" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/Anaconda/Lib/site-packages/aiohttp/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="741" column="0" lean-forward="false" selection-start-line="741" selection-start-column="0" selection-end-line="741" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/Anaconda/Lib/asyncio/events.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="217" column="8" lean-forward="false" selection-start-line="217" selection-start-column="8" selection-end-line="217" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/downloadPDF.py" />
+    <entry file="file://E:/Anaconda/Lib/site-packages/magic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="98">
+          <caret line="66" column="38" lean-forward="true" selection-start-line="66" selection-start-column="38" selection-end-line="66" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rand_gen.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="27" lean-forward="false" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/files/downloadPDF.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="93" column="20" lean-forward="false" selection-start-line="93" selection-start-column="20" selection-end-line="93" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build_search/redis_manager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="50" column="23" lean-forward="true" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="23" />
+        <state relative-caret-position="22">
+          <caret line="55" column="11" lean-forward="false" selection-start-line="55" selection-start-column="11" selection-end-line="55" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_search/loadPDF_backup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="17" column="36" lean-forward="true" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/Anaconda/Lib/site-packages/elasticsearch/client/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="693" column="42" lean-forward="false" selection-start-line="693" selection-start-column="36" selection-end-line="693" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/search_web/my.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-31611">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_search/readTxt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="924">
+          <caret line="42" column="27" lean-forward="true" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_search/parse_excel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1716">
+          <caret line="80" column="32" lean-forward="false" selection-start-line="80" selection-start-column="32" selection-end-line="80" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/search_web/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-790">
+          <caret line="42" column="10" lean-forward="true" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_search/transURL_backup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="21" column="15" lean-forward="false" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_search/txt_ext_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="40" column="48" lean-forward="false" selection-start-line="40" selection-start-column="48" selection-end-line="40" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_search/actor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="9" lean-forward="false" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_search/extract_ext_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="20" column="64" lean-forward="false" selection-start-line="20" selection-start-column="64" selection-end-line="20" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_search/transURL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="138" column="114" lean-forward="false" selection-start-line="138" selection-start-column="8" selection-end-line="138" selection-end-column="114" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/search_web/templates/manege-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10472">
+          <caret line="476" column="27" lean-forward="false" selection-start-line="476" selection-start-column="27" selection-end-line="476" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/Anaconda/envs/tensorflow/Lib/site-packages/tensorflow/contrib/tensor_forest/hybrid/python/models/nn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="24" column="6" lean-forward="false" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_search/loadActor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="63" column="38" lean-forward="true" selection-start-line="63" selection-start-column="38" selection-end-line="63" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_search/buildIndex.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5038">
+          <caret line="232" column="31" lean-forward="false" selection-start-line="232" selection-start-column="31" selection-end-line="232" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/search_web/application.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3586">
+          <caret line="169" column="19" lean-forward="false" selection-start-line="169" selection-start-column="19" selection-end-line="169" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build_search/mongo_manager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="259" column="27" lean-forward="false" selection-start-line="259" selection-start-column="27" selection-end-line="259" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_search/transURL.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="128" column="32" lean-forward="false" selection-start-line="128" selection-start-column="32" selection-end-line="128" selection-end-column="32" />
-          <folding>
-            <element signature="e#139#148#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="161">
+          <caret line="347" column="26" lean-forward="true" selection-start-line="347" selection-start-column="26" selection-end-line="347" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build_search/loadPDF.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="80" column="34" lean-forward="false" selection-start-line="80" selection-start-column="34" selection-end-line="80" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build_search/txt_ext_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-242">
-          <caret line="7" column="14" lean-forward="true" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="169">
+          <caret line="81" column="19" lean-forward="true" selection-start-line="81" selection-start-column="19" selection-end-line="81" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Semantic UI</title>
+	<title>IntelSeeker</title>
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="static/semantic/dist/semantic.min.css">
 	<script type="text/javascript" src="static/semantic/dist/semantic.min.js"></script>
@@ -15,23 +15,23 @@
   <div class="ui inverted secondary menu">
   	<div class="item">
 	   <img src="static/images/icon1.png">
-	   <span style="font-size: medium;">&nbsp;IntelTrackr</span>
+	   <span style="font-size: medium;">&nbsp;IntelSeeker</span>
 	</div>
     <a class="item" href="manege-list.html">
-      Info List
+      情报列表
     </a>
     <a class="item" href="actor-list.html">
-      Actor List
+      组织列表
     </a>
     <a class="item" href="audit.html">
-      Verify
+      管理审核
     </a>
     <div class="right menu">
 	  <div class="item">
 		<p style="font-family: '微软雅黑'; font-style: italic;">Administrator</p>
 	  </div>
 	  <a class="ui item">
-	    Logout
+	    登出
 	  </a>
 	</div>
   </div>
@@ -49,13 +49,13 @@
 		    <form id="search-input">
 		    <div class="ui fluid right action left icon big input">
 		      <i class="search icon"></i>
-			  <input type="text" spellcheck="false" id="keyword" placeholder="Search for url,  domain,  or something relative to resource...">
+			  <input type="text" spellcheck="false" id="keyword" placeholder="输入相关的链接,域名或其他信息以查找...">
 			  <div class="ui basic floating dropdown button index-option">
-				  <div class="text">Option</div>
+				  <div class="text">选项</div>
 				  <i class="dropdown icon"></i>
 				  <div class="menu">
-				    <div class="item">actor</div>
-				    <div class="item active selected">report</div>
+				    <div class="item">组织</div>
+				    <div class="item active selected">情报</div>
 				  </div>
 			  </div>
 			  <!-- <div class="ui button">Search</div> -->
@@ -68,7 +68,7 @@
 		<div class="ui small statistics">
 		  <div class="statistic">
 		    <div class="value">
-		      <i class="file outline icon"></i>120,233
+		      <i class="file outline icon"></i><font id="num1">120,233</font>
 		    </div>
 		    <div class="label">
 		      Malware samples
@@ -76,7 +76,7 @@
 		  </div>
 		  <div class="statistic">
 		    <div class="value">
-		      <i class="linkify icon"></i>238,745
+		      <i class="linkify icon"></i><font id="num2">238,745</font>
 		    </div>
 		    <div class="label">
 		      IOCs
@@ -84,7 +84,7 @@
 		  </div>
 		  <div class="statistic">
 		    <div class="value">
-		      <i class="spy icon"></i> 38,637
+		      <i class="spy icon"></i><font id="num3">38,637</font>
 		    </div>
 		    <div class="label">
 		      Actors
@@ -94,7 +94,7 @@
 		    <div class="value">
 		      <i class="users icon"></i>
 		      <!-- <img src="images/team.png" class="ui circular inline image"> -->
-		      49,800
+		      <font id="num4">49,800</font>
 		    </div>
 		    <div class="label">
 		      Team Members
@@ -106,40 +106,13 @@
 	<div class="centered row">
 			<div class="ui card seven wide column">
 			  <div class="content">
-			    <div class="header"><i class="linkify icon"></i>recent IOC</div>
+			    <div class="header"><i class="linkify icon"></i>最近IOC</div>
 			  </div>
 			  <div class="content">
-			    <table class="ui compact selectable table">
+			    <table class="ui compact selectable table" id="table1">
 				  <tbody>
 				    <tr>
 				      <td><a href="http://www.baidu.com/" target="_">aftermarket.pl</a></td>
-				    </tr>
-				    <tr>
-				      <td>static.aftermarket.pl</td>
-				    </tr>
-				    <tr>
-				      <td>wafemme.net</td>
-				    </tr>
-				    <tr>
-				      <td>www.wafemme.net</td>
-				    </tr>
-				    <tr>
-				      <td>silverliningfabrics.com</td>
-				    </tr>
-				    <tr>
-				      <td>i1-news.softpedia-static.com</td>
-				    </tr>
-				    <tr>
-				      <td>yhxxx.3322.org</td>
-				    </tr>
-				    <tr>
-				      <td>bejojy.com</td>
-				    </tr>
-				    <tr>
-				      <td>nvuuye.com</td>
-				    </tr>
-				    <tr>
-				      <td>juawaw.com</td>
 				    </tr>
 				  </tbody>
 				</table>
@@ -148,40 +121,13 @@
 			<div class="one wide column"></div>
 			<div class="ui card seven wide column">
 			  <div class="content">
-			    <div class="header"><i class="spy icon"></i>recent Actor</div>
+			    <div class="header"><i class="spy icon"></i>最近组织</div>
 			  </div>
 			  <div class="content">
-			    <table class="ui compact selectable table">
+			    <table class="ui compact selectable table" id="table2">
 				  <tbody>
 				    <tr>
 				      <td><a href="javascript:void(0)">aftermarket.pl</a></td>
-				    </tr>
-				    <tr>
-				      <td>static.aftermarket.pl</td>
-				    </tr>
-				    <tr>
-				      <td>wafemme.net</td>
-				    </tr>
-				    <tr>
-				      <td>www.wafemme.net</td>
-				    </tr>
-				    <tr>
-				      <td>silverliningfabrics.com</td>
-				    </tr>
-				    <tr>
-				      <td>i1-news.softpedia-static.com</td>
-				    </tr>
-				    <tr>
-				      <td>yhxxx.3322.org</td>
-				    </tr>
-				    <tr>
-				      <td>bejojy.com</td>
-				    </tr>
-				    <tr>
-				      <td>nvuuye.com</td>
-				    </tr>
-				    <tr>
-				      <td>juawaw.com</td>
 				    </tr>
 				  </tbody>
 				</table>
@@ -193,6 +139,38 @@
 </div>
 <!-- <button onclick="test()">asdasd</button> -->
 <script type="text/javascript">
+window.onload=function(){
+  console.log("\nonload js begin\n");
+
+  $.ajax({
+      type: 'POST',
+      url: "/api/index",
+      success: function(data){
+        assignIndex(data);
+      },
+      dataType: "json"
+    });  
+
+  console.log("\nonload js end\n")
+};
+
+function assignIndex(data){
+  $('#num1').text(data['sum'][0]);
+  $('#num2').text(data['sum'][1]);
+  $('#num3').text(data['sum'][2]);
+  $('#num4').text(data['sum'][3]);
+  
+  for(var i in data['ioc']){
+    var line = "<tr><td><a href=\"javascript:void(0)\">"+data['ioc'][i]+"</a></td></tr>";
+    $("#table1").append(line);
+  }
+  for(var i in data['actor']){
+    var line = "<tr><td><a href=\"javascript:void(0)\">"+data['actor'][i]+"</a></td></tr>";
+    $("#table2").append(line);
+  }
+	
+}
+
 $('.ui.dropdown').dropdown();
 
 
